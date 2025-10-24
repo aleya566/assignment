@@ -22,6 +22,14 @@ st.markdown("""
 Analyze how **caffeine consumption**, **physical activity**, and **device usage** influence students' **sleep quality**.
 """)
 
+# --- Unified Plotly Theme ---
+plotly_theme = {
+    "plot_bgcolor": "rgba(255,255,255,1)",
+    "paper_bgcolor": "rgba(255,255,255,1)",
+    "font": dict(family="Arial", size=13, color="#2e2e2e"),
+    "title_font": dict(size=18, color="#D35400"),
+}
+
 # --- Show Data ---
 with st.expander("🔍 View Dataset"):
     st.dataframe(df.head())
@@ -56,20 +64,20 @@ for col in behavior_sleep_df.columns:
 # Compute correlation matrix
 correlation_matrix = behavior_sleep_df.corr()
 
-# Create interactive heatmap
+# Create interactive heatmap with unified theme
 fig1 = ff.create_annotated_heatmap(
     z=correlation_matrix.values,
     x=list(correlation_matrix.columns),
     y=list(correlation_matrix.index),
     annotation_text=correlation_matrix.round(2).values,
-    colorscale='RdBu',
-    showscale=True,
-    reversescale=True
+    colorscale=px.colors.sequential.Sunset,
+    showscale=True
 )
 fig1.update_layout(
     title="Correlation Matrix of Behaviors and Sleep Issues",
     xaxis=dict(title="Variables"),
-    yaxis=dict(title="Variables")
+    yaxis=dict(title="Variables"),
+    **plotly_theme
 )
 st.plotly_chart(fig1, use_container_width=True)
 
@@ -114,7 +122,8 @@ fig2 = px.imshow(
 )
 fig2.update_layout(
     xaxis_title="Device Use Frequency (Numeric Scale)",
-    yaxis_title="Average Sleep Hours (Numeric Scale)"
+    yaxis_title="Average Sleep Hours (Numeric Scale)",
+    **plotly_theme
 )
 st.plotly_chart(fig2, use_container_width=True)
 
@@ -149,7 +158,8 @@ fig3 = px.bar(
 fig3.update_layout(
     xaxis_title='Caffeine Consumption Frequency',
     yaxis_title='Proportion',
-    xaxis_tickangle=45
+    xaxis_tickangle=45,
+    **plotly_theme
 )
 st.plotly_chart(fig3, use_container_width=True)
 
