@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
+import plotly.express as px
 
 def main():
     st.title("💤 Objective 2: Lifestyle Habits and Sleep Impact")
@@ -9,16 +8,24 @@ def main():
     url = "https://raw.githubusercontent.com/aleya566/assignment/refs/heads/main/Student%20Insomnia%20and%20Educational%20Outcomes%20Dataset.csv"
     df = pd.read_csv(url)
 
-    st.subheader("Caffeine Consumption vs Sleep Quality")
-    plt.figure(figsize=(7, 5))
-    sns.countplot(data=df, x='12. How often do you consume caffeine (coffee, energy drinks) to stay awake or alert?', hue='6. How would you rate the overall quality of your sleep?')
-    plt.xticks(rotation=45)
-    plt.xlabel("Caffeine Consumption Frequency")
-    plt.ylabel("Count")
-    plt.title("Impact of Caffeine on Sleep Quality")
-    st.pyplot(plt)
+    st.subheader("☕ Caffeine Consumption vs Sleep Quality")
 
-    st.write("This visualization explores how caffeine consumption frequency correlates with students’ perceived sleep quality.")
+    fig = px.histogram(
+        df,
+        x='12. How often do you consume caffeine (coffee, energy drinks) to stay awake or alert?',
+        color='6. How would you rate the overall quality of your sleep?',
+        barmode='group',
+        title="Impact of Caffeine Consumption on Sleep Quality",
+        labels={
+            'x': 'Caffeine Consumption Frequency',
+            'color': 'Sleep Quality'
+        },
+        color_discrete_sequence=px.colors.qualitative.Set2
+    )
+    fig.update_layout(xaxis_title="Caffeine Consumption", yaxis_title="Number of Students", bargap=0.2)
+    st.plotly_chart(fig, use_container_width=True)
+
+    st.write("This visualization shows how caffeine consumption frequency may affect the perceived sleep quality among students.")
 
 if __name__ == "__main__":
     main()
