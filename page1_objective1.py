@@ -21,59 +21,54 @@ st.markdown("""
 Explore the relationships between **sleep habits, stress levels, and academic performance** among students.
 """)
 # ==============================================
-# 🔹 Key Metrics Section (Color Cards Style)
+# 🔹 Key Metrics Section
 # ==============================================
 col1, col2, col3, col4 = st.columns(4)
 
-# --- Data Cleaning for Sleep Hours ---
+# Clean numeric values for sleep hours
 sleep_col = '4. On average, how many hours of sleep do you get on a typical day?'
+
+# Try to extract numbers even if text contains words (e.g., "6 hours")
 df[sleep_col] = df[sleep_col].astype(str).str.extract(r'(\d+\.?\d*)')
 df[sleep_col] = pd.to_numeric(df[sleep_col], errors='coerce')
 
-# --- Compute Metrics Safely ---
+# Compute summary metrics safely
+avg_sleep = df[sleep_col].mean()
+
+# Handle categorical columns robustly (avoid KeyErrors)
 stress_col = '14. How would you describe your stress levels related to academic workload?'
 gpa_col = '15. How would you rate your overall academic performance (GPA or grades) in the past semester?'
 gender_col = '2. What is your gender?'
 
-avg_sleep = df[sleep_col].mean()
 avg_stress = df[stress_col].mode()[0] if not df[stress_col].empty else "N/A"
 avg_gpa = df[gpa_col].mode()[0] if not df[gpa_col].empty else "N/A"
 gender_ratio = df[gender_col].value_counts(normalize=True).idxmax() if not df[gender_col].empty else "N/A"
 
-# --- Custom Card Function ---
-def metric_card(color, label, value, subtitle):
-    st.markdown(f"""
-    <div style="
-        background-color:{color};
-        padding:20px;
-        border-radius:15px;
-        text-align:center;
-        color:white;
-        box-shadow:0 4px 8px rgba(0,0,0,0.2);
-        ">
-        <h3 style="margin-bottom:5px;">{label}</h3>
-        <h2 style="margin:0;">{value}</h2>
-        <p style="margin-top:8px;font-size:14px;opacity:0.9;">{subtitle}</p>
-    </div>
-    """, unsafe_allow_html=True)
+# Display metrics
+col1.metric(
+    label="🕒 Average Sleep Hours",
+    value=f"{avg_sleep:.1f} hrs" if not pd.isna(avg_sleep) else "N/A",
+    help="Average number of sleep hours reported by students"
+)
 
-# --- Display Metrics in Columns ---
-with col1:
-    metric_card("#2E8B57", "🕒 Avg Sleep Hours",
-                f"{avg_sleep:.1f} hrs" if not pd.isna(avg_sleep) else "N/A",
-                "Average number of sleep hours")
+col2.metric(
+    label="😰 Most Common Stress Level",
+    value=avg_stress,
+    help="Most frequently reported academic stress level"
+)
 
-with col2:
-    metric_card("#FF8C00", "😰 Most Common Stress Level",
-                avg_stress, "Most frequently reported academic stress")
+col3.metric(
+    label="🎓 Typical Academic Performance",
+    value=avg_gpa,
+    help="Most commonly reported GPA/grade category"
+)
 
-with col3:
-    metric_card("#4169E1", "🎓 Typical Academic Performance",
-                avg_gpa, "Most common GPA/grade range")
+col4.metric(
+    label="🚻 Majority Gender",
+    value=gender_ratio,
+    help="Gender with highest participation"
+)
 
-with col4:
-    metric_card("#9932CC", "🚻 Majority Gender",
-                gender_ratio, "Highest participation gender")
 
 # ==============================================
 # 1️⃣ Stacked Bar Chart – Stress Levels by Year of Study
