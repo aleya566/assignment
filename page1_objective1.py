@@ -2,6 +2,11 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
+df = st.session_state.get("data")
+if df is None:
+    url = "https://raw.githubusercontent.com/aleya566/assignment/refs/heads/main/Student%20Insomnia%20and%20Educational%20Outcomes%20Dataset.csv"
+    df = pd.read_csv(url)
+
 st.title("Objective 1 – Distribution of Sleep & Stress Factors")
 
 def page(df):
