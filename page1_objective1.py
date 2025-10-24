@@ -2,64 +2,106 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-df = st.session_state.get("data")
-if df is None:
-    url = "https://raw.githubusercontent.com/aleya566/assignment/refs/heads/main/Student%20Insomnia%20and%20Educational%20Outcomes%20Dataset.csv"
+# --- Streamlit Page Config ---
+st.set_page_config(page_title="Student Sleep & Stress Dashboard", layout="wide")
+
+# --- Load Data ---
+@st.cache_data
+def load_data():
+    url = 'https://raw.githubusercontent.com/aleya566/assignment/refs/heads/main/Student%20Insomnia%20and%20Educational%20Outcomes%20Dataset.csv'
     df = pd.read_csv(url)
+    return df
 
-st.title("Objective 1 – Distribution of Sleep & Stress Factors")
+df = load_data()
 
-def page(df):
-    # --- Visualization 1: Academic Stress Levels by Year of Study ---
-    st.subheader("Visualization 1: Academic Stress Levels by Year of Study")
-    stress_year_crosstab = pd.crosstab(
-        df['1. What is your year of study?'],
-        df['14. How would you describe your stress levels related to academic workload?'],
-        normalize='index'
-    ) * 100
-    stress_order = ['Very Low', 'Low', 'Moderate', 'High', 'Very High']
-    stress_year_crosstab = stress_year_crosstab.reindex(columns=[c for c in stress_order if c in stress_year_crosstab.columns])
-    fig1 = px.bar(
-        stress_year_crosstab,
-        x=stress_year_crosstab.index,
-        y=stress_year_crosstab.columns,
-        title="Academic Stress Levels by Year of Study",
-        labels={'value': 'Proportion (%)', 'index': 'Year of Study'},
-        color_discrete_sequence=px.colors.sequential.Inferno_r
-    )
-    fig1.update_layout(barmode='stack')
-    st.plotly_chart(fig1, use_container_width=True)
+# --- Page Title ---
+st.title("📊 Student Insomnia and Educational Outcomes Dashboard")
 
-    # --- Visualization 2: Average Sleep Hours by Gender ---
-    st.subheader("Visualization 2: Average Sleep Hours by Gender")
-    fig2 = px.box(
-        df,
-        x='2. What is your gender?',
-        y='4. On average, how many hours of sleep do you get on a typical day?',
-        color='2. What is your gender?',
-        category_orders={'2. What is your gender?': ['Male', 'Female']},
-        color_discrete_sequence=px.colors.sequential.Inferno_r
-    )
-    fig2.update_layout(title="Average Sleep Hours by Gender", showlegend=False)
-    st.plotly_chart(fig2, use_container_width=True)
+st.markdown("""
+Explore the relationships between **sleep habits, stress levels, and academic performance** among students.
+""")
 
-    # --- Visualization 3: Relationship between Sleep Quality and Academic Performance ---
-    st.subheader("Visualization 3: Sleep Quality vs Academic Performance")
-    cross_tab = pd.crosstab(
-        df['6. How would you rate the overall quality of your sleep?'],
-        df['15. How would you rate your overall academic performance (GPA or grades) in the past semester?'],
-        normalize='index'
-    ) * 100
-    sleep_order = ['Very Poor', 'Poor', 'Average', 'Good', 'Excellent']
-    performance_order = ['Poor', 'Below Average', 'Average', 'Good', 'Excellent']
-    cross_tab = cross_tab.reindex(index=sleep_order, columns=[c for c in performance_order if c in cross_tab.columns])
-    fig3 = px.bar(
-        cross_tab,
-        x=cross_tab.index,
-        y=cross_tab.columns,
-        title="Relationship between Sleep Quality and Academic Performance",
-        labels={'value': 'Proportion (%)', 'index': 'Sleep Quality'},
-        color_discrete_sequence=px.colors.sequential.Inferno_r
-    )
-    fig3.update_layout(barmode='stack')
-    st.plotly_chart(fig3, use_container_width=True)
+# --- Show Data Preview ---
+with st.expander("🔍 View Dataset"):
+    st.dataframe(df.head())
+
+# ==============================================
+# 1️⃣ Stacked Bar Chart – Stress Levels by Year of Study
+# ==============================================
+st.subheader("🎓 Academic Stress Levels by Year of Study")
+
+stress_year_crosstab = pd.crosstab(
+    df['1. What is your year of study?'],
+    df['14. How would you describe your stress levels related to academic workload?'],
+    normalize='index'
+)
+
+stress_year_crosstab = stress_year_crosstab.reset_index().melt(
+    id_vars='1. What is your year of study?',
+    var_name='Stress Level',
+    value_name='Proportion'
+)
+
+fig1 = px.bar(
+    stress_year_crosstab,
+    x='1. What is your year of study?',
+    y='Proportion',
+    color='Stress Level',
+    title='Academic Stress Levels by Year of Study',
+    barmode='stack',
+    color_discrete_sequence=px.colors.sequential.Sunset
+)
+
+fig1.update_layout(xaxis_title="Year of Study", yaxis_title="Proportion")
+st.plotly_chart(fig1, use_container_width=True)
+
+# ==============================================
+# 2️⃣ Box Plot – Sleep Hours by Gender
+# ==============================================
+st.subheader("😴 Average Sleep Hours by Gender")
+
+fig2 = px.box(
+    df,
+    x='2. What is your gender?',
+    y='4. On average, how many hours of sleep do you get on a typical day?',
+    color='2. What is your gender?',
+    title='Average Sleep Hours by Gender',
+    color_discrete_sequence=px.colors.sequential.Sunset
+)
+
+fig2.update_layout(xaxis_title="Gender", yaxis_title="Average Sleep Hours")
+st.plotly_chart(fig2, use_container_width=True)
+
+# ==============================================
+# 3️⃣ Stacked Bar Chart – Sleep Quality vs Academic Performance
+# ==============================================
+st.subheader("📚 Relationship between Sleep Quality and Academic Performance")
+
+cross_tab = pd.crosstab(
+    df['6. How would you rate the overall quality of your sleep?'],
+    df['15. How would you rate your overall academic performance (GPA or grades) in the past semester?'],
+    normalize='index'
+)
+
+cross_tab = cross_tab.reset_index().melt(
+    id_vars='6. How would you rate the overall quality of your sleep?',
+    var_name='Academic Performance',
+    value_name='Proportion'
+)
+
+fig3 = px.bar(
+    cross_tab,
+    x='6. How would you rate the overall quality of your sleep?',
+    y='Proportion',
+    color='Academic Performance',
+    title='Relationship between Sleep Quality and Academic Performance',
+    barmode='stack',
+    color_discrete_sequence=px.colors.sequential.Sunset
+)
+
+fig3.update_layout(xaxis_title="Sleep Quality", yaxis_title="Proportion")
+st.plotly_chart(fig3, use_container_width=True)
+
+# --- Footer ---
+st.markdown("---")
+st.markdown("✅ *Developed with Streamlit + Plotly | Dataset: Student Insomnia and Educational Outcomes*")
