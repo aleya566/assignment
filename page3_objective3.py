@@ -22,7 +22,7 @@ Explore how **sleep difficulties, fatigue, and insufficient rest** influence stu
 """)
 
 # --- Dataset Preview ---
-with st.expander("📄 View Dataset"):
+with st.expander("🔍 View Dataset"):
     st.dataframe(df.head())
 
 # =====================================================
