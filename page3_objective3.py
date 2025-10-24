@@ -36,7 +36,7 @@ if '15. How would you rate your overall academic performance (GPA or grades) in 
         'Poor': 1, 'Below Average': 2, 'Average': 3, 'Good': 4, 'Excellent': 5
     }
     df['15. How would you rate your overall academic performance (GPA or grades) in the past semester?_numeric'] = df[
-        '15. How would you rate your overall academic performance (GPA or grades) in the past semester?)'
+        '15. How would you rate your overall academic performance (GPA or grades) in the past semester?'
     ].map(academic_performance_mapping)
 
 # Define order for x-axis
