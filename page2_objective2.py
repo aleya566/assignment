@@ -23,7 +23,7 @@ Analyze how **caffeine consumption**, **physical activity**, and **device usage*
 """)
 
 # --- Show Data ---
-with st.expander("📄 View Dataset"):
+with st.expander("🔍 View Dataset"):
     st.dataframe(df.head())
 
 # ==========================================================
