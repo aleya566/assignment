@@ -26,15 +26,29 @@ Explore the relationships between **sleep habits, stress levels, and academic pe
 # ==============================================
 col1, col2, col3, col4 = st.columns(4)
 
-# Compute summary metrics
-avg_sleep = df['4. On average, how many hours of sleep do you get on a typical day?'].mean()
-avg_stress = df['14. How would you describe your stress levels related to academic workload?'].mode()[0]
-avg_gpa = df['15. How would you rate your overall academic performance (GPA or grades) in the past semester?'].mode()[0]
-gender_ratio = df['2. What is your gender?'].value_counts(normalize=True).idxmax()
+# Clean numeric values for sleep hours
+sleep_col = '4. On average, how many hours of sleep do you get on a typical day?'
 
+# Try to extract numbers even if text contains words (e.g., "6 hours")
+df[sleep_col] = df[sleep_col].astype(str).str.extract(r'(\d+\.?\d*)')
+df[sleep_col] = pd.to_numeric(df[sleep_col], errors='coerce')
+
+# Compute summary metrics safely
+avg_sleep = df[sleep_col].mean()
+
+# Handle categorical columns robustly (avoid KeyErrors)
+stress_col = '14. How would you describe your stress levels related to academic workload?'
+gpa_col = '15. How would you rate your overall academic performance (GPA or grades) in the past semester?'
+gender_col = '2. What is your gender?'
+
+avg_stress = df[stress_col].mode()[0] if not df[stress_col].empty else "N/A"
+avg_gpa = df[gpa_col].mode()[0] if not df[gpa_col].empty else "N/A"
+gender_ratio = df[gender_col].value_counts(normalize=True).idxmax() if not df[gender_col].empty else "N/A"
+
+# Display metrics
 col1.metric(
     label="🕒 Average Sleep Hours",
-    value=f"{avg_sleep:.1f} hrs",
+    value=f"{avg_sleep:.1f} hrs" if not pd.isna(avg_sleep) else "N/A",
     help="Average number of sleep hours reported by students"
 )
 
@@ -56,9 +70,6 @@ col4.metric(
     help="Gender with highest participation"
 )
 
-# --- Show Data Preview ---
-with st.expander("🔍 View Dataset"):
-    st.dataframe(df.head())
 
 # ==============================================
 # 1️⃣ Stacked Bar Chart – Stress Levels by Year of Study
