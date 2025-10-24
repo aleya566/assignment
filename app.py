@@ -19,7 +19,7 @@ page3 = st.Page("page3_objective3.py", title="Objective 3 – Academic Performan
 
 # --- Navigation setup ---
 pg = st.navigation({
-    "Student Survey Menu": [home, page2, page3]
+    "Menu": [home, page2, page3]
 })
 
 pg.run()
