@@ -21,21 +21,18 @@ st.markdown("""
 Explore the relationships between **sleep habits, stress levels, and academic performance** among students.
 """)
 # ==============================================
-# 🔹 Key Metrics Section
+# ==============================================
+# 🔹 Key Metrics Section (with Borders)
 # ==============================================
 col1, col2, col3, col4 = st.columns(4)
 
 # Clean numeric values for sleep hours
 sleep_col = '4. On average, how many hours of sleep do you get on a typical day?'
-
-# Try to extract numbers even if text contains words (e.g., "6 hours")
 df[sleep_col] = df[sleep_col].astype(str).str.extract(r'(\d+\.?\d*)')
 df[sleep_col] = pd.to_numeric(df[sleep_col], errors='coerce')
 
 # Compute summary metrics safely
 avg_sleep = df[sleep_col].mean()
-
-# Handle categorical columns robustly (avoid KeyErrors)
 stress_col = '14. How would you describe your stress levels related to academic workload?'
 gpa_col = '15. How would you rate your overall academic performance (GPA or grades) in the past semester?'
 gender_col = '2. What is your gender?'
@@ -44,30 +41,63 @@ avg_stress = df[stress_col].mode()[0] if not df[stress_col].empty else "N/A"
 avg_gpa = df[gpa_col].mode()[0] if not df[gpa_col].empty else "N/A"
 gender_ratio = df[gender_col].value_counts(normalize=True).idxmax() if not df[gender_col].empty else "N/A"
 
-# Display metrics
-col1.metric(
-    label="🕒 Average Sleep Hours",
-    value=f"{avg_sleep:.1f} hrs" if not pd.isna(avg_sleep) else "N/A",
-    help="Average number of sleep hours reported by students"
-)
+# --- Custom CSS for bordered metric cards ---
+st.markdown("""
+    <style>
+    .metric-card {
+        border: 2px solid #f39c12;
+        border-radius: 12px;
+        padding: 15px;
+        background-color: #fffaf0;
+        text-align: center;
+        box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+    }
+    .metric-label {
+        font-weight: bold;
+        color: #333;
+        font-size: 16px;
+    }
+    .metric-value {
+        font-size: 22px;
+        color: #e67e22;
+        font-weight: 700;
+    }
+    </style>
+""", unsafe_allow_html=True)
 
-col2.metric(
-    label="😰 Most Common Stress Level",
-    value=avg_stress,
-    help="Most frequently reported academic stress level"
-)
+# --- Display metrics in bordered boxes ---
+with col1:
+    st.markdown(f"""
+    <div class="metric-card">
+        <div class="metric-label">🕒 Average Sleep Hours</div>
+        <div class="metric-value">{avg_sleep:.1f} hrs</div>
+    </div>
+    """, unsafe_allow_html=True)
 
-col3.metric(
-    label="🎓 Typical Academic Performance",
-    value=avg_gpa,
-    help="Most commonly reported GPA/grade category"
-)
+with col2:
+    st.markdown(f"""
+    <div class="metric-card">
+        <div class="metric-label">😰 Most Common Stress Level</div>
+        <div class="metric-value">{avg_stress}</div>
+    </div>
+    """, unsafe_allow_html=True)
 
-col4.metric(
-    label="🚻 Majority Gender",
-    value=gender_ratio,
-    help="Gender with highest participation"
-)
+with col3:
+    st.markdown(f"""
+    <div class="metric-card">
+        <div class="metric-label">🎓 Typical Academic Performance</div>
+        <div class="metric-value">{avg_gpa}</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+with col4:
+    st.markdown(f"""
+    <div class="metric-card">
+        <div class="metric-label">🚻 Majority Gender</div>
+        <div class="metric-value">{gender_ratio}</div>
+    </div>
+    """, unsafe_allow_html=True)
+
 
 
 # ==============================================
