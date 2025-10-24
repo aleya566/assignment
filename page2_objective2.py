@@ -25,7 +25,6 @@ Analyze how **caffeine consumption**, **physical activity**, and **device usage*
 # --- Show Data ---
 with st.expander("🔍 View Dataset"):
     st.dataframe(df.head())
-
 # ==========================================================
 # 1️⃣ Correlation Heatmap – Behaviors vs Sleep Issues
 # ==========================================================
@@ -56,22 +55,25 @@ for col in behavior_sleep_df.columns:
 # Compute correlation matrix
 correlation_matrix = behavior_sleep_df.corr()
 
-# Create interactive heatmap
+# Create interactive heatmap with 'Sunset' theme
 fig1 = ff.create_annotated_heatmap(
     z=correlation_matrix.values,
     x=list(correlation_matrix.columns),
     y=list(correlation_matrix.index),
     annotation_text=correlation_matrix.round(2).values,
-    colorscale='RdBu',
+    colorscale=px.colors.sequential.Sunset,
     showscale=True,
-    reversescale=True
+    reversescale=False  # Keep consistent warm gradient
 )
 fig1.update_layout(
     title="Correlation Matrix of Behaviors and Sleep Issues",
     xaxis=dict(title="Variables"),
-    yaxis=dict(title="Variables")
+    yaxis=dict(title="Variables"),
+    title_font=dict(size=18)
 )
+
 st.plotly_chart(fig1, use_container_width=True)
+
 
 # ==========================================================
 # 2️⃣ Heatmap – Sleep Hours vs Device Use
