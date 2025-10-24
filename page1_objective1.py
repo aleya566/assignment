@@ -21,6 +21,41 @@ st.markdown("""
 Explore the relationships between **sleep habits, stress levels, and academic performance** among students.
 """)
 
+# ==============================================
+# 🔹 Key Metrics Section
+# ==============================================
+col1, col2, col3, col4 = st.columns(4)
+
+# Compute summary metrics
+avg_sleep = df['4. On average, how many hours of sleep do you get on a typical day?'].mean()
+avg_stress = df['14. How would you describe your stress levels related to academic workload?'].mode()[0]
+avg_gpa = df['15. How would you rate your overall academic performance (GPA or grades) in the past semester?'].mode()[0]
+gender_ratio = df['2. What is your gender?'].value_counts(normalize=True).idxmax()
+
+col1.metric(
+    label="🕒 Average Sleep Hours",
+    value=f"{avg_sleep:.1f} hrs",
+    help="Average number of sleep hours reported by students"
+)
+
+col2.metric(
+    label="😰 Most Common Stress Level",
+    value=avg_stress,
+    help="Most frequently reported academic stress level"
+)
+
+col3.metric(
+    label="🎓 Typical Academic Performance",
+    value=avg_gpa,
+    help="Most commonly reported GPA/grade category"
+)
+
+col4.metric(
+    label="🚻 Majority Gender",
+    value=gender_ratio,
+    help="Gender with highest participation"
+)
+
 # --- Show Data Preview ---
 with st.expander("🔍 View Dataset"):
     st.dataframe(df.head())
