@@ -73,10 +73,31 @@ def display_report_section(title, content, color):
         </div>
     """, unsafe_allow_html=True)
 
+# --- NEW: Home Page ---
+def home_page(data):
+    st.title("Welcome to the Student Insomnia Report Dashboard")
+    st.markdown("""
+        <div style="padding: 20px; border-left: 5px solid #F97316; background-color: #F973161A; border-radius: 4px; margin-bottom: 30px;">
+        <h3 style="margin-top: 0; color: #F97316;">Report Overview</h3>
+        <p style="font-size: 1rem; line-height: 1.6;">
+        This interactive report provides a deep-dive analysis into the correlation between student sleep patterns, lifestyle habits (like device use and caffeine), and academic outcomes. Use the **Report Navigation** menu on the left to explore the three core objectives of the study: Distribution, Lifestyle Impact, and Academic Impact.
+        </p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    st.subheader("Key Statistics")
+    
+    # Display simple stats
+    col_h1, col_h2, col_h3 = st.columns(3)
+    col_h1.metric("Total Respondents", f"{len(data)}")
+    col_h2.metric("Median Sleep Hours", f"{data['Sleep_Hours'].mode()[0]}")
+    col_h3.metric("Most Frequent Academic Stress", data['Academic_Stress'].mode()[0])
+
+
 # --- Page 1: Distribution of Sleep & Stress Factors ---
 
 def page_1_distribution(data):
-    st.title("Page 1: Distribution of Sleep & Stress Factors by Demographics")
+    st.title("Objective 1: Distribution of Sleep & Stress Factors by Demographics")
 
     # Objective Statement
     display_report_section("Objective Statement", 
@@ -149,7 +170,7 @@ def page_1_distribution(data):
 # --- Page 2: Lifestyle Behaviors and Sleep Quality ---
 
 def page_2_lifestyle_impact(data):
-    st.title("Page 2: Lifestyle Behaviors and Overall Sleep Quality")
+    st.title("Objective 2: Lifestyle Behaviors and Overall Sleep Quality")
 
     # Objective Statement
     display_report_section("Objective Statement", 
@@ -238,7 +259,7 @@ def page_2_lifestyle_impact(data):
 # --- Page 3: Impact on Concentration, Fatigue, and Performance ---
 
 def page_3_academic_impact(data):
-    st.title("Page 3: Impact on Concentration, Fatigue, and Academic Performance")
+    st.title("Objective 3: Impact on Concentration, Fatigue, and Academic Performance")
 
     # Objective Statement
     display_report_section("Objective Statement", 
@@ -310,19 +331,20 @@ def page_3_academic_impact(data):
     st.plotly_chart(fig3, use_container_width=True)
 
 
-# --- Main Application Logic ---
+# --- Main Application Logic (Modified) ---
 
 def main():
-    st.sidebar.title("Dashboard Navigation")
+    st.sidebar.title("Report Navigation")
     
-    # Use radio buttons for page selection
+    # Use the existing function-based navigation, updated with the new Home page and clearer titles
     pages = {
-        "Page 1: Sleep/Stress Distribution": page_1_distribution,
-        "Page 2: Lifestyle Behaviors Impact": page_2_lifestyle_impact,
-        "Page 3: Functional & Academic Impact": page_3_academic_impact
+        "🏠 Homepage": home_page,
+        "📊 Objective 1: Distribution": page_1_distribution,
+        "📱 Objective 2: Lifestyle Impact": page_2_lifestyle_impact,
+        "📝 Objective 3: Academic Impact": page_3_academic_impact
     }
     
-    selection = st.sidebar.radio("Go to:", list(pages.keys()))
+    selection = st.sidebar.radio("Go to:", list(pages.keys()), index=0)
     
     # Call the selected page function
     page = pages[selection]
