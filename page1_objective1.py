@@ -70,7 +70,9 @@ col4.metric(
 )
 
 
-
+# --- Show Data ---
+with st.expander("🔍 View Dataset"):
+    st.dataframe(df.head())
 
 # ==============================================
 # 1️⃣ Stacked Bar Chart – Stress Levels by Year of Study
