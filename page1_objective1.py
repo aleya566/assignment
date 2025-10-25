@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+import numpy as np # Needed for the new chart's category ordering
 
 # --- Streamlit Page Config ---
 st.set_page_config(page_title="Student Sleep & Stress Dashboard", layout="wide")
@@ -20,6 +21,7 @@ st.title("📊 Student Insomnia and Educational Outcomes Dashboard")
 st.markdown("""
 Explore the relationships between **sleep habits, stress levels, and academic performance** among students.
 """)
+
 # ==============================================
 # 🔹 Key Metrics Section
 # ==============================================
@@ -29,6 +31,7 @@ col1, col2, col3, col4 = st.columns(4)
 sleep_col = '4. On average, how many hours of sleep do you get on a typical day?'
 
 # Try to extract numbers even if text contains words (e.g., "6 hours")
+# NOTE: Using a simpler conversion assuming the string starts with the number
 df[sleep_col] = df[sleep_col].astype(str).str.extract(r'(\d+\.?\d*)')
 df[sleep_col] = pd.to_numeric(df[sleep_col], errors='coerce')
 
@@ -126,7 +129,57 @@ fig2.update_layout(xaxis_title="Gender", yaxis_title="Average Sleep Hours")
 st.plotly_chart(fig2, use_container_width=True)
 
 # ==============================================
-# 3️⃣ Stacked Bar Chart – Sleep Quality vs Academic Performance
+# 2️⃣b Stacked Bar Chart – Sleep Quality by Year of Study (NEW CHART)
+# ==============================================
+st.subheader("🌙 Sleep Quality by Year of Study")
+st.markdown("Proportion of students in each year of study reporting different levels of sleep quality.")
+
+# 1. Create the normalized crosstab
+sleep_quality_year_crosstab = pd.crosstab(
+    df['1. What is your year of study?'], 
+    df['6. How would you rate the overall quality of your sleep?'], 
+    normalize='index'
+)
+
+# 2. Convert the wide crosstab format to a long format (melt) for Plotly Express
+plot_data_sleep_year = sleep_quality_year_crosstab.reset_index()
+plot_data_sleep_year = plot_data_sleep_year.melt(
+    id_vars='1. What is your year of study?',
+    var_name='Sleep Quality',
+    value_name='Proportion'
+)
+
+# Define the category orders for consistent visualization
+sleep_quality_order = ['Very Poor', 'Poor', 'Average', 'Good', 'Very Good']
+# Ensure Year of Study is ordered logically (if possible, otherwise alphabetical)
+year_of_study_order = sorted(plot_data_sleep_year['1. What is your year of study?'].unique())
+
+# 3. Create the Plotly Stacked Bar Chart
+fig_sleep_year = px.bar(
+    plot_data_sleep_year,
+    x='1. What is your year of study?',
+    y='Proportion',
+    color='Sleep Quality',
+    barmode='stack', # Key for stacked bar chart
+    category_orders={
+        'Sleep Quality': sleep_quality_order,
+        '1. What is your year of study?': year_of_study_order 
+    },
+    title='Sleep Quality by Year of Study',
+    color_discrete_sequence=px.colors.sequential.Plasma_r # Color scheme similar to 'flare'
+)
+
+# 4. Update layout and display
+fig_sleep_year.update_layout(
+    xaxis_title="Year of Study", 
+    yaxis_title="Proportion of Students",
+    xaxis={'tickangle': 45}, # Rotate X-axis labels for readability
+    legend_title_text='Sleep Quality'
+)
+st.plotly_chart(fig_sleep_year, use_container_width=True)
+
+# ==============================================
+# 3️⃣ Stacked Bar Chart – Sleep Quality vs Academic Performance (ORIGINAL CHART 3)
 # ==============================================
 st.subheader("📚 Relationship between Sleep Quality and Academic Performance")
 
