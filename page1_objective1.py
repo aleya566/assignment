@@ -48,25 +48,29 @@ gender_ratio = df[gender_col].value_counts(normalize=True).idxmax() if not df[ge
 col1.metric(
     label="🕒 Average Sleep Hours",
     value=f"{avg_sleep:.1f} hrs" if not pd.isna(avg_sleep) else "N/A",
-    help="Average number of sleep hours reported by students"
+    help="Average number of sleep hours reported by students",
+    border=True
 )
 
 col2.metric(
     label="😰 Most Common Stress Level",
     value=avg_stress,
-    help="Most frequently reported academic stress level"
+    help="Most frequently reported academic stress level",
+    border=True
 )
 
 col3.metric(
     label="🎓 Typical Academic Performance",
     value=avg_gpa,
-    help="Most commonly reported GPA/grade category"
+    help="Most commonly reported GPA/grade category",
+    border=True
 )
 
 col4.metric(
     label="🚻 Majority Gender",
     value=gender_ratio,
-    help="Gender with highest participation"
+    help="Gender with highest participation",
+    border=True
 )
 
 
