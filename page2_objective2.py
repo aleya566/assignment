@@ -22,9 +22,60 @@ st.markdown("""
 Analyze how **caffeine consumption**, **physical activity**, and **device usage** influence students' **sleep quality**.
 """)
 
+# ==============================================
+# 🔹 Key Metrics Section (matching Objective 1)
+# ==============================================
+col1, col2, col3, col4 = st.columns(4)
+
+# Columns of interest
+sleep_quality_col = '6. How would you rate the overall quality of your sleep?'
+caffeine_col = '12. How often do you consume caffeine (coffee, energy drinks) to stay awake or alert?'
+device_col = '11. How often do you use electronic devices (e.g., phone, computer) before going to sleep?'
+exercise_col = '13. How often do you engage in physical activity or exercise?'
+
+# Calculate key metrics
+most_common_sleep_quality = df[sleep_quality_col].mode()[0] if not df[sleep_quality_col].empty else "N/A"
+most_common_caffeine = df[caffeine_col].mode()[0] if not df[caffeine_col].empty else "N/A"
+most_common_device = df[device_col].mode()[0] if not df[device_col].empty else "N/A"
+most_common_exercise = df[exercise_col].mode()[0] if not df[exercise_col].empty else "N/A"
+
+# --- Display Metrics with Plain Grey Borders ---
+metric_style = """
+    <style>
+        [data-testid="stMetric"] {
+            border: 1px solid #d3d3d3;
+            border-radius: 8px;
+            padding: 10px;
+        }
+    </style>
+"""
+st.markdown(metric_style, unsafe_allow_html=True)
+
+col1.metric(
+    label="💤 Most Common Sleep Quality",
+    value=most_common_sleep_quality,
+    help="Most frequently reported sleep quality rating"
+)
+col2.metric(
+    label="☕ Typical Caffeine Use",
+    value=most_common_caffeine,
+    help="Most common caffeine consumption frequency"
+)
+col3.metric(
+    label="📱 Typical Device Usage",
+    value=most_common_device,
+    help="Most common frequency of device use before sleep"
+)
+col4.metric(
+    label="🏃 Typical Physical Activity",
+    value=most_common_exercise,
+    help="Most common frequency of physical activity"
+)
+
 # --- Show Data ---
 with st.expander("🔍 View Dataset"):
     st.dataframe(df.head())
+
 # ==========================================================
 # 1️⃣ Correlation Heatmap – Behaviors vs Sleep Issues
 # ==========================================================
@@ -48,22 +99,18 @@ behavior_sleep_df.columns = [
     'Physical activity'
 ]
 
-# Convert categorical to numeric using factorize
 for col in behavior_sleep_df.columns:
     behavior_sleep_df[col], _ = pd.factorize(behavior_sleep_df[col])
 
-# Compute correlation matrix
 correlation_matrix = behavior_sleep_df.corr()
 
-# Create interactive heatmap with 'Sunset' theme
 fig1 = ff.create_annotated_heatmap(
     z=correlation_matrix.values,
     x=list(correlation_matrix.columns),
     y=list(correlation_matrix.index),
     annotation_text=correlation_matrix.round(2).values,
     colorscale=px.colors.sequential.Sunset,
-    showscale=True,
-    reversescale=False  # Keep consistent warm gradient
+    showscale=True
 )
 fig1.update_layout(
     title="Correlation Matrix of Behaviors and Sleep Issues",
@@ -71,9 +118,7 @@ fig1.update_layout(
     yaxis=dict(title="Variables"),
     title_font=dict(size=18)
 )
-
 st.plotly_chart(fig1, use_container_width=True)
-
 
 # ==========================================================
 # 2️⃣ Heatmap – Sleep Hours vs Device Use
@@ -87,7 +132,6 @@ sleep_device_df = df[[
 
 sleep_device_df.columns = ['Average hours of sleep', 'Electronic device use before sleep']
 
-# Map categorical values to numeric
 sleep_hour_mapping = {
     'Less than 4 hours': 3, '4-5 hours': 4.5, '5-6 hours': 5.5,
     '6-7 hours': 6.5, '7-8 hours': 7.5, 'More than 8 hours': 9
@@ -107,7 +151,6 @@ heatmap_data = sleep_device_df.pivot_table(
     fill_value=0
 )
 
-# Create Plotly heatmap
 fig2 = px.imshow(
     heatmap_data,
     text_auto=True,
