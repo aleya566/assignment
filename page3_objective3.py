@@ -21,6 +21,57 @@ st.markdown("""
 Explore how **sleep difficulties, fatigue, and insufficient rest** influence students' **academic performance**.
 """)
 
+# ==============================================
+# 🔹 Key Metrics Section (Plain Grey Border)
+# ==============================================
+col1, col2, col3, col4 = st.columns(4)
+
+# Define key columns
+performance_col = '15. How would you rate your overall academic performance (GPA or grades) in the past semester?'
+concentration_col = '7. How often do you experience difficulty concentrating during lectures or studying due to lack of sleep?'
+fatigue_col = '8. How often do you feel fatigued during the day, affecting your ability to study or attend classes?'
+sleep_impact_col = '10. How would you describe the impact of insufficient sleep on your ability to complete assignments and meet deadlines?'
+
+# Calculate summary metrics
+common_performance = df[performance_col].mode()[0] if not df[performance_col].empty else "N/A"
+common_concentration = df[concentration_col].mode()[0] if not df[concentration_col].empty else "N/A"
+common_fatigue = df[fatigue_col].mode()[0] if not df[fatigue_col].empty else "N/A"
+common_sleep_impact = df[sleep_impact_col].mode()[0] if not df[sleep_impact_col].empty else "N/A"
+
+# --- Metric Styling (Plain Grey Border) ---
+metric_style = """
+    <style>
+        [data-testid="stMetric"] {
+            border: 1px solid #d3d3d3;
+            border-radius: 8px;
+            padding: 10px;
+        }
+    </style>
+"""
+st.markdown(metric_style, unsafe_allow_html=True)
+
+# --- Display Metrics ---
+col1.metric(
+    label="🎓 Most Common Academic Performance",
+    value=common_performance,
+    help="Most frequently reported academic performance level"
+)
+col2.metric(
+    label="🧩 Common Concentration Difficulty",
+    value=common_concentration,
+    help="Most common frequency of difficulty concentrating"
+)
+col3.metric(
+    label="💤 Typical Fatigue Level",
+    value=common_fatigue,
+    help="Most common fatigue frequency reported by students"
+)
+col4.metric(
+    label="📦 Impact of Insufficient Sleep",
+    value=common_sleep_impact,
+    help="Most common reported impact of insufficient sleep on assignments"
+)
+
 # --- Dataset Preview ---
 with st.expander("🔍 View Dataset"):
     st.dataframe(df.head())
@@ -89,7 +140,7 @@ heatmap_data = df.pivot_table(
     columns='8. How often do you feel fatigued during the day, affecting your ability to study or attend classes?_numeric',
     values='15. How would you rate your overall academic performance (GPA or grades) in the past semester?_numeric',
     aggfunc='mean'
-).reindex(list(concentration_mapping.values())).T.reindex(list(fatigue_mapping.values())).T
+)
 
 # Create interactive heatmap
 fig2 = px.imshow(
