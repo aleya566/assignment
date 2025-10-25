@@ -125,7 +125,6 @@ fig2 = px.box(
 fig2.update_layout(xaxis_title="Gender", yaxis_title="Average Sleep Hours")
 st.plotly_chart(fig2, use_container_width=True)
 
-
 # ==============================================
 # 3️⃣ Stacked Bar Chart – Sleep Quality vs Academic Performance
 # ==============================================
