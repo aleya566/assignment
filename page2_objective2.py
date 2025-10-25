@@ -23,54 +23,71 @@ Analyze how **caffeine consumption**, **physical activity**, and **device usage*
 """)
 
 # ==============================================
-# 🔹 Key Metrics Section (matching Objective 1)
+# 🔹 Key Metrics Section (with Border Boxes)
 # ==============================================
-col1, col2, col3, col4 = st.columns(4)
-
-# Columns of interest
-sleep_quality_col = '6. How would you rate the overall quality of your sleep?'
-caffeine_col = '12. How often do you consume caffeine (coffee, energy drinks) to stay awake or alert?'
-device_col = '11. How often do you use electronic devices (e.g., phone, computer) before going to sleep?'
-exercise_col = '13. How often do you engage in physical activity or exercise?'
-
-# Calculate key metrics
-most_common_sleep_quality = df[sleep_quality_col].mode()[0] if not df[sleep_quality_col].empty else "N/A"
-most_common_caffeine = df[caffeine_col].mode()[0] if not df[caffeine_col].empty else "N/A"
-most_common_device = df[device_col].mode()[0] if not df[device_col].empty else "N/A"
-most_common_exercise = df[exercise_col].mode()[0] if not df[exercise_col].empty else "N/A"
-
-# --- Display Metrics with Plain Grey Borders ---
-metric_style = """
+# Add border styling
+st.markdown("""
     <style>
-        [data-testid="stMetric"] {
-            border: 1px solid #d3d3d3;
-            border-radius: 8px;
-            padding: 10px;
+        .metric-box {
+            border: 2px solid #E0E0E0;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            background-color: #FAFAFA;
         }
     </style>
-"""
-st.markdown(metric_style, unsafe_allow_html=True)
+""", unsafe_allow_html=True)
 
-col1.metric(
-    label="💤 Most Common Sleep Quality",
-    value=most_common_sleep_quality,
-    help="Most frequently reported sleep quality rating"
-)
-col2.metric(
-    label="☕ Typical Caffeine Use",
-    value=most_common_caffeine,
-    help="Most common caffeine consumption frequency"
-)
-col3.metric(
-    label="📱 Typical Device Usage",
-    value=most_common_device,
-    help="Most common frequency of device use before sleep"
-)
-col4.metric(
-    label="🏃 Typical Physical Activity",
-    value=most_common_exercise,
-    help="Most common frequency of physical activity"
-)
+col1, col2, col3, col4 = st.columns(4)
+
+# Prepare columns
+sleep_quality_col = '6. How would you rate the overall quality of your sleep?'
+caffeine_col = '12. How often do you consume caffeine (coffee, energy drinks) to stay awake or alert?'
+exercise_col = '13. How often do you engage in physical activity or exercise?'
+device_col = '11. How often do you use electronic devices (e.g., phone, computer) before going to sleep?'
+
+# Clean and calculate metrics
+avg_sleep_quality = df[sleep_quality_col].mode()[0] if not df[sleep_quality_col].empty else "N/A"
+common_caffeine = df[caffeine_col].mode()[0] if not df[caffeine_col].empty else "N/A"
+common_exercise = df[exercise_col].mode()[0] if not df[exercise_col].empty else "N/A"
+common_device_use = df[device_col].mode()[0] if not df[device_col].empty else "N/A"
+
+# Display Key Metrics
+with col1:
+    st.markdown(f"""
+        <div class="metric-box">
+            <h4>💤 Most Common Sleep Quality</h4>
+            <h2>{avg_sleep_quality}</h2>
+            <p style='color:gray;'>Typical sleep quality rating among students</p>
+        </div>
+    """, unsafe_allow_html=True)
+
+with col2:
+    st.markdown(f"""
+        <div class="metric-box">
+            <h4>☕ Most Common Caffeine Frequency</h4>
+            <h2>{common_caffeine}</h2>
+            <p style='color:gray;'>Typical caffeine consumption habit</p>
+        </div>
+    """, unsafe_allow_html=True)
+
+with col3:
+    st.markdown(f"""
+        <div class="metric-box">
+            <h4>🏃‍♀️ Physical Activity Frequency</h4>
+            <h2>{common_exercise}</h2>
+            <p style='color:gray;'>Most frequent exercise or activity level</p>
+        </div>
+    """, unsafe_allow_html=True)
+
+with col4:
+    st.markdown(f"""
+        <div class="metric-box">
+            <h4>📱 Device Usage Before Sleep</h4>
+            <h2>{common_device_use}</h2>
+            <p style='color:gray;'>Most common device use pattern before bed</p>
+        </div>
+    """, unsafe_allow_html=True)
 
 # --- Show Data ---
 with st.expander("🔍 View Dataset"):
