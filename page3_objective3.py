@@ -38,38 +38,30 @@ common_concentration = df[concentration_col].mode()[0] if not df[concentration_c
 common_fatigue = df[fatigue_col].mode()[0] if not df[fatigue_col].empty else "N/A"
 common_sleep_impact = df[sleep_impact_col].mode()[0] if not df[sleep_impact_col].empty else "N/A"
 
-# --- Metric Styling (Plain Grey Border) ---
-metric_style = """
-    <style>
-        [data-testid="stMetric"] {
-            border: 1px solid #d3d3d3;
-            border-radius: 8px;
-            padding: 10px;
-        }
-    </style>
-"""
-st.markdown(metric_style, unsafe_allow_html=True)
-
 # --- Display Metrics ---
 col1.metric(
     label="🎓 Most Common Academic Performance",
     value=common_performance,
-    help="Most frequently reported academic performance level"
+    help="Most frequently reported academic performance level",
+    border=True
 )
 col2.metric(
     label="🧩 Common Concentration Difficulty",
     value=common_concentration,
-    help="Most common frequency of difficulty concentrating"
+    help="Most common frequency of difficulty concentrating",
+    border=True
 )
 col3.metric(
     label="💤 Typical Fatigue Level",
     value=common_fatigue,
-    help="Most common fatigue frequency reported by students"
+    help="Most common fatigue frequency reported by students",
+    border=True
 )
 col4.metric(
     label="📦 Impact of Insufficient Sleep",
     value=common_sleep_impact,
-    help="Most common reported impact of insufficient sleep on assignments"
+    help="Most common reported impact of insufficient sleep on assignments",
+    border=True
 )
 
 # --- Dataset Preview ---
