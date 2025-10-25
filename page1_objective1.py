@@ -20,61 +20,8 @@ st.title("📊 Student Insomnia and Educational Outcomes Dashboard")
 st.markdown("""
 Explore the relationships between **sleep habits, stress levels, and academic performance** among students.
 """)
-# ==============================================
-# 🔹 Key Metrics Section
-# ==============================================
-col1, col2, col3, col4 = st.columns(4)
 
-# Clean numeric values for sleep hours
-sleep_col = '4. On average, how many hours of sleep do you get on a typical day?'
-
-# Try to extract numbers even if text contains words (e.g., "6 hours")
-df[sleep_col] = df[sleep_col].astype(str).str.extract(r'(\d+\.?\d*)')
-df[sleep_col] = pd.to_numeric(df[sleep_col], errors='coerce')
-
-# Compute summary metrics safely
-avg_sleep = df[sleep_col].mean()
-
-# Handle categorical columns robustly (avoid KeyErrors)
-stress_col = '14. How would you describe your stress levels related to academic workload?'
-gpa_col = '15. How would you rate your overall academic performance (GPA or grades) in the past semester?'
-gender_col = '2. What is your gender?'
-
-avg_stress = df[stress_col].mode()[0] if not df[stress_col].empty else "N/A"
-avg_gpa = df[gpa_col].mode()[0] if not df[gpa_col].empty else "N/A"
-gender_ratio = df[gender_col].value_counts(normalize=True).idxmax() if not df[gender_col].empty else "N/A"
-
-# Display metrics
-col1.metric(
-    label="🕒 Average Sleep Hours",
-    value=f"{avg_sleep:.1f} hrs" if not pd.isna(avg_sleep) else "N/A",
-    help="Average number of sleep hours reported by students",
-    border=True
-)
-
-col2.metric(
-    label="😰 Most Common Stress Level",
-    value=avg_stress,
-    help="Most frequently reported academic stress level",
-    border=True
-)
-
-col3.metric(
-    label="🎓 Typical Academic Performance",
-    value=avg_gpa,
-    help="Most commonly reported GPA/grade category",
-    border=True
-)
-
-col4.metric(
-    label="🚻 Majority Gender",
-    value=gender_ratio,
-    help="Gender with highest participation",
-    border=True
-)
-
-
-# --- Show Data ---
+# --- Show Data Preview ---
 with st.expander("🔍 View Dataset"):
     st.dataframe(df.head())
 
@@ -158,3 +105,5 @@ st.plotly_chart(fig3, use_container_width=True)
 # --- Footer ---
 st.markdown("---")
 st.markdown("✅ *Developed with Streamlit + Plotly | Dataset: Student Insomnia and Educational Outcomes*")
+
+
