@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-import numpy as np # Needed for the new chart's category ordering
+import numpy as np # Included for robust category ordering
 
 # --- Streamlit Page Config ---
 st.set_page_config(page_title="Student Sleep & Stress Dashboard", layout="wide")
@@ -129,7 +129,7 @@ fig2.update_layout(xaxis_title="Gender", yaxis_title="Average Sleep Hours")
 st.plotly_chart(fig2, use_container_width=True)
 
 # ==============================================
-# 2️⃣b Stacked Bar Chart – Sleep Quality by Year of Study (NEW CHART)
+# 3️⃣ Stacked Bar Chart – Sleep Quality by Year of Study
 # ==============================================
 st.subheader("🌙 Sleep Quality by Year of Study")
 st.markdown("Proportion of students in each year of study reporting different levels of sleep quality.")
@@ -177,36 +177,6 @@ fig_sleep_year.update_layout(
     legend_title_text='Sleep Quality'
 )
 st.plotly_chart(fig_sleep_year, use_container_width=True)
-
-# ==============================================
-# 3️⃣ Stacked Bar Chart – Sleep Quality vs Academic Performance (ORIGINAL CHART 3)
-# ==============================================
-st.subheader("📚 Relationship between Sleep Quality and Academic Performance")
-
-cross_tab = pd.crosstab(
-    df['6. How would you rate the overall quality of your sleep?'],
-    df['15. How would you rate your overall academic performance (GPA or grades) in the past semester?'],
-    normalize='index'
-)
-
-cross_tab = cross_tab.reset_index().melt(
-    id_vars='6. How would you rate the overall quality of your sleep?',
-    var_name='Academic Performance',
-    value_name='Proportion'
-)
-
-fig3 = px.bar(
-    cross_tab,
-    x='6. How would you rate the overall quality of your sleep?',
-    y='Proportion',
-    color='Academic Performance',
-    title='Relationship between Sleep Quality and Academic Performance',
-    barmode='stack',
-    color_discrete_sequence=px.colors.sequential.Sunset
-)
-
-fig3.update_layout(xaxis_title="Sleep Quality", yaxis_title="Proportion")
-st.plotly_chart(fig3, use_container_width=True)
 
 # --- Footer ---
 st.markdown("---")
