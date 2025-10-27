@@ -164,7 +164,8 @@ fig_sleep_year = px.bar(
         '1. What is your year of study?': year_of_study_order 
     },
     title='Sleep Quality by Year of Study',
-    color_discrete_sequence=px.colors.sequential.Plasma_r
+    color_discrete_sequence=px.colors.sequential.Sunset
+
 )
 
 fig_sleep_year.update_layout(
