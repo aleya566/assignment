@@ -82,7 +82,7 @@ with st.expander("🔍 View Dataset"):
 # ==============================================
 st.markdown("""
 ## 🎯 **Objective 1**
-To explore how academic stress levels and sleep patterns vary across students years of study and genders. This objective focuses on identifying patterns of **academic stress**, **sleep duration**, and **sleep quality** across different groups of students.
+To explore how academic stress levels and sleep patterns vary across students years of study and genders. This objective focuses on identifying patterns of **academic stress**, **sleep duration** and **sleep quality** across different groups of students.
 """)
 
 # ==============================================
