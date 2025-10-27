@@ -17,12 +17,13 @@ df = load_data()
 
 # --- Page Header ---
 st.title("🧠 Impact of Sleep-Related Issues on Academic Performance")
+
 st.markdown("""
 Explore how **sleep difficulties, fatigue, and insufficient rest** influence students' **academic performance**.
 """)
 
 # ==============================================
-# 🔹 Key Metrics Section (Plain Grey Border)
+# 🔹 Key Metrics Section
 # ==============================================
 col1, col2, col3, col4 = st.columns(4)
 
@@ -38,35 +39,26 @@ common_concentration = df[concentration_col].mode()[0] if not df[concentration_c
 common_fatigue = df[fatigue_col].mode()[0] if not df[fatigue_col].empty else "N/A"
 common_sleep_impact = df[sleep_impact_col].mode()[0] if not df[sleep_impact_col].empty else "N/A"
 
-# --- Display Metrics ---
-col1.metric(
-    label="🎓 Most Common Academic Performance",
-    value=common_performance,
-    help="Most frequently reported academic performance level",
-    border=True
-)
-col2.metric(
-    label="🧩 Common Concentration Difficulty",
-    value=common_concentration,
-    help="Most common frequency of difficulty concentrating",
-    border=True
-)
-col3.metric(
-    label="💤 Typical Fatigue Level",
-    value=common_fatigue,
-    help="Most common fatigue frequency reported by students",
-    border=True
-)
-col4.metric(
-    label="📦 Impact of Insufficient Sleep",
-    value=common_sleep_impact,
-    help="Most common reported impact of insufficient sleep on assignments",
-    border=True
-)
+# Display metrics
+col1.metric("🎓 Most Common Academic Performance", common_performance)
+col2.metric("🧩 Common Concentration Difficulty", common_concentration)
+col3.metric("💤 Typical Fatigue Level", common_fatigue)
+col4.metric("📦 Impact of Insufficient Sleep", common_sleep_impact)
 
 # --- Dataset Preview ---
 with st.expander("🔍 View Dataset"):
     st.dataframe(df.head())
+
+# ==============================================
+# 🎯 OBJECTIVE 3
+# ==============================================
+st.markdown("""
+## 🎯 **Objective 3**
+To investigate how sleep-related issues such as **insufficient rest**, **difficulty concentrating**, and **daytime fatigue** affect students’ **academic performance** and **cognitive functioning**.
+
+This objective focuses on understanding how **sleep deprivation and mental exhaustion** translate into measurable impacts on students’ learning efficiency, task completion, and overall academic results.  
+The following visualizations illustrate how different levels of fatigue, focus, and sleep impact academic performance.
+""")
 
 # =====================================================
 # 1️⃣ Box Plot – Academic Performance vs Insufficient Sleep Impact
@@ -82,7 +74,6 @@ if '15. How would you rate your overall academic performance (GPA or grades) in 
         '15. How would you rate your overall academic performance (GPA or grades) in the past semester?'
     ].map(academic_performance_mapping)
 
-# Define order for x-axis
 impact_order = ['No impact', 'Minor impact', 'Moderate impact', 'Major impact', 'Severe impact']
 
 fig1 = px.box(
@@ -134,7 +125,7 @@ heatmap_data = df.pivot_table(
     aggfunc='mean'
 )
 
-# Create interactive heatmap
+# Interactive heatmap
 fig2 = px.imshow(
     heatmap_data,
     text_auto=True,
