@@ -76,7 +76,7 @@ with st.expander("🔍 View Dataset"):
 # ==============================================
 st.markdown("""
 ## 🎯 **Objective 2**
-To analyze how students’ lifestyle behaviors — including **caffeine consumption**, **physical activity**, and **electronic device usage** — influence their overall **sleep quality** and **sleep duration**. This objective focuses on identifying the behavioral factors that may contribute to **sleep disturbances** and **variations in sleep quality** among students. The following visualizations examine the relationships between lifestyle habits and sleep-related issues such as **difficulty falling asleep**, **night awakenings**, and **average sleep hours**.
+To analyze how students lifestyle behaviors — including **caffeine consumption**, **physical activity** and **electronic device usage** — influence their overall **sleep quality** and **sleep duration**. This objective focuses on identifying the behavioral factors that may contribute to **sleep disturbances** and **variations in sleep quality** among students.
 """)
 
 # ==========================================================
