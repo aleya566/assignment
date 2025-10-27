@@ -40,10 +40,34 @@ common_fatigue = df[fatigue_col].mode()[0] if not df[fatigue_col].empty else "N/
 common_sleep_impact = df[sleep_impact_col].mode()[0] if not df[sleep_impact_col].empty else "N/A"
 
 # Display metrics
-col1.metric("🎓 Most Common Academic Performance", common_performance)
-col2.metric("🧩 Common Concentration Difficulty", common_concentration)
-col3.metric("💤 Typical Fatigue Level", common_fatigue)
-col4.metric("📦 Impact of Insufficient Sleep", common_sleep_impact)
+# --- Display Metrics --- 
+col1.metric(
+label="🎓 Most Common Academic Performance",
+value=common_performance, 
+help="Most frequently reported academic performance level", 
+border=True 
+) 
+
+col2.metric( 
+label="🧩 Common Concentration Difficulty", 
+value=common_concentration, 
+help="Most common frequency of difficulty concentrating", 
+border=True
+) 
+
+col3.metric( 
+label="💤 Typical Fatigue Level", 
+value=common_fatigue, 
+help="Most common fatigue frequency reported by students", 
+border=True
+) 
+
+col4.metric( 
+label="📦 Impact of Insufficient Sleep", 
+value=common_sleep_impact, 
+help="Most common reported impact of insufficient sleep on assignments", 
+border=True
+)
 
 # --- Dataset Preview ---
 with st.expander("🔍 View Dataset"):
