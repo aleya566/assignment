@@ -39,10 +39,33 @@ most_common_caffeine = df[caffeine_col].mode()[0] if not df[caffeine_col].empty 
 most_common_device = df[device_col].mode()[0] if not df[device_col].empty else "N/A"
 most_common_exercise = df[exercise_col].mode()[0] if not df[exercise_col].empty else "N/A"
 
-col1.metric("💤 Most Common Sleep Quality", most_common_sleep_quality)
-col2.metric("☕ Typical Caffeine Use", most_common_caffeine)
-col3.metric("📱 Typical Device Usage", most_common_device)
-col4.metric("🏃 Typical Physical Activity", most_common_exercise)
+col1.metric( 
+label="💤 Most Common Sleep Quality", 
+value=most_common_sleep_quality, 
+help="Most frequently reported sleep quality rating", 
+border=True 
+) 
+
+col2.metric( 
+label="☕ Typical Caffeine Use", 
+value=most_common_caffeine, 
+help="Most common caffeine consumption frequency", 
+border=True 
+) 
+
+col3.metric(
+label="📱 Typical Device Usage", 
+value=most_common_device, 
+help="Most common frequency of device use before sleep", 
+border=True 
+) 
+
+col4.metric(
+label="🏃 Typical Physical Activity", 
+value=most_common_exercise, 
+help="Most common frequency of physical activity", 
+border=True 
+)
 
 # --- Show Data ---
 with st.expander("🔍 View Dataset"):
