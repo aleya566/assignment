@@ -44,10 +44,34 @@ avg_stress = df[stress_col].mode()[0] if not df[stress_col].empty else "N/A"
 avg_gpa = df[gpa_col].mode()[0] if not df[gpa_col].empty else "N/A"
 gender_ratio = df[gender_col].value_counts(normalize=True).idxmax() if not df[gender_col].empty else "N/A"
 
-col1.metric("🕒 Average Sleep Hours", f"{avg_sleep:.1f} hrs" if not pd.isna(avg_sleep) else "N/A")
-col2.metric("😰 Most Common Stress Level", avg_stress)
-col3.metric("🎓 Typical Academic Performance", avg_gpa)
-col4.metric("🚻 Majority Gender", gender_ratio)
+# Display metrics 
+col1.metric(
+label="🕒 Average Sleep Hours", 
+value=f"{avg_sleep:.1f} hrs" if not pd.isna(avg_sleep) else "N/A", 
+help="Average number of sleep hours reported by students", 
+border=True 
+) 
+
+col2.metric(
+label="😰 Most Common Stress Level", 
+value=avg_stress, 
+help="Most frequently reported academic stress level", 
+border=True 
+) 
+
+col3.metric(
+label="🎓 Typical Academic Performance", 
+value=avg_gpa, 
+help="Most commonly reported GPA/grade category", 
+border=True 
+) 
+
+col4.metric( 
+label="🚻 Majority Gender", 
+value=gender_ratio, 
+help="Gender with highest participation", 
+border=True 
+)
 
 # --- Show Data ---
 with st.expander("🔍 View Dataset"):
