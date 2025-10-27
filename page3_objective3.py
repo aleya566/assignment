@@ -78,10 +78,7 @@ with st.expander("🔍 View Dataset"):
 # ==============================================
 st.markdown("""
 ## 🎯 **Objective 3**
-To investigate how sleep-related issues such as **insufficient rest**, **difficulty concentrating**, and **daytime fatigue** affect students’ **academic performance** and **cognitive functioning**.
-
-This objective focuses on understanding how **sleep deprivation and mental exhaustion** translate into measurable impacts on students’ learning efficiency, task completion, and overall academic results.  
-The following visualizations illustrate how different levels of fatigue, focus, and sleep impact academic performance.
+To investigate how sleep-related issues such as **insufficient rest**, **difficulty concentrating** and **daytime fatigue** affect students **academic performance** and **cognitive functioning**. This objective focuses on understanding how **sleep deprivation and mental exhaustion** translate into measurable impacts on students’ learning efficiency, task completion, and overall academic results. 
 """)
 
 # =====================================================
