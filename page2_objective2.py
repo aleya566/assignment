@@ -72,7 +72,7 @@ with st.expander("🔍 View Dataset"):
 # ==============================================
 st.markdown("""
 ## 🎯 **Objective 2**
-To analyze how students lifestyle behaviors — including **caffeine consumption**, **physical activity** and **electronic device usage** — influence their overall **sleep quality** and **sleep duration**. This objective focuses on identifying the behavioral factors that may contribute to **sleep disturbances** and **variations in sleep quality** among students.
+To analyze how students lifestyle behaviors (including **caffeine consumption**, **physical activity** and **electronic device usage**) influence their overall **sleep quality** and **sleep duration**. This objective focuses on identifying the behavioral factors that may contribute to **sleep disturbances** and **variations in sleep quality** among students.
 """)
 
 # ==========================================================
