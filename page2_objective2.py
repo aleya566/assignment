@@ -126,82 +126,96 @@ st.plotly_chart(fig1, use_container_width=True)
 # ==========================================================
 # 2️⃣ Heatmap – Sleep Hours vs Device Use
 # ==========================================================
+import streamlit as st
 import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
 
-# --- Data Mappings ---
-sleep_hour_mapping = {'Less than 4 hours': 3, '4-5 hours': 4.5, '5-6 hours': 5.5,
-                      '6-7 hours': 6.5, '7-8 hours': 7.5, 'More than 8 hours': 9}
-device_use_mapping = {'Never': 0, 'Rarely (1-2 times a week)': 1.5, 'Sometimes (3-4 times a week)': 3.5,
-                      'Often (5-6 times a week)': 5.5, 'Every night': 7}
+# --- Streamlit Application Code ---
+def app():
+    # Set the title and a brief description
+    st.title("😴 Sleep Hours vs. Electronic Device Use Heatmap")
+    st.write("Density of Observations for Different Combinations of Average Sleep Hours and Electronic Device Use Before Sleep (Plotly Heatmap)")
+    
+    # =================================================================
+    # NOTE: You MUST replace this dummy data with your actual DataFrame
+    # loaded from your source (e.g., df = pd.read_csv('your_data.csv'))
+    # The columns '4...' and '11...' must match your original data.
+    # =================================================================
+    
 
-# Assuming 'sleep_device_df' has been prepared as in your original script
-# and 'heatmap_data' is the resulting pivot table (DataFrame with numeric indices/columns)
+    # --- Data Processing (as provided in your original script) ---
 
-# --- Plotly Conversion ---
+    # Select relevant columns
+    sleep_device_df = df[['4. On average, how many hours of sleep do you get on a typical day?',
+                          '11. How often do you use electronic devices (e.g., phone, computer) before going to sleep?']].copy()
 
-# Reorder heatmap_data to ensure categorical order
-Y_numeric_order = list(sleep_hour_mapping.values())
-X_numeric_order = list(device_use_mapping.values())
+    # Rename columns for clarity
+    sleep_device_df.columns = ['Average hours of sleep', 'Electronic device use before sleep']
 
-# Reindex using the numeric keys, fill NaNs (if any missing combinations)
-heatmap_data = heatmap_data.reindex(index=Y_numeric_order,
-                                    columns=X_numeric_order).fillna(0)
+    # Map categorical sleep hours to numerical values
+    sleep_hour_mapping = {'Less than 4 hours': 3, '4-5 hours': 4.5, '5-6 hours': 5.5,
+                          '6-7 hours': 6.5, '7-8 hours': 7.5, 'More than 8 hours': 9}
 
-# Extract Z (counts), Y (Sleep Hours labels), and X (Device Use labels)
-Z = heatmap_data.values.tolist()
-Y = list(sleep_hour_mapping.keys())
-X = list(device_use_mapping.keys())
+    sleep_device_df['Average hours of sleep_numeric'] = sleep_device_df['Average hours of sleep'].map(sleep_hour_mapping)
 
-# Create the heatmap trace
-heatmap_trace = go.Heatmap(
-    z=Z,
-    x=X, # Categorical labels for x-axis
-    y=Y, # Categorical labels for y-axis
-    colorscale='Plasma',  # A perceptually uniform colorscale (similar to 'flare')
-    hovertemplate='Sleep Hours: %{y}<br>Device Use: %{x}<br>Count: %{z}<extra></extra>',
-    showscale=True
-)
+    # Map categorical device use to numerical values
+    device_use_mapping = {'Never': 0, 'Rarely (1-2 times a week)': 1.5, 'Sometimes (3-4 times a week)': 3.5,
+                          'Often (5-6 times a week)': 5.5, 'Every night': 7}
 
-# Create the layout
-layout = go.Layout(
-    title='Density of Observations: Average Hours of Sleep vs. Electronic Device Use Before Sleep',
-    xaxis=dict(
-        title='Frequency of Electronic Device Use Before Sleep',
-        tickangle=-45,
-        automargin=True
-    ),
-    yaxis=dict(
-        title='Average Hours of Sleep',
-        automargin=True
+    sleep_device_df['Electronic device use before sleep_numeric'] = sleep_device_df['Electronic device use before sleep'].map(device_use_mapping)
+
+    # Create a pivot table to count occurrences
+    heatmap_data = sleep_device_df.pivot_table(index='Average hours of sleep_numeric',
+                                               columns='Electronic device use before sleep_numeric',
+                                               aggfunc='size', fill_value=0)
+
+    # Reorder index and columns for logical display using the numeric keys
+    sleep_keys_ordered = list(sleep_hour_mapping.values())
+    device_keys_ordered = list(device_use_mapping.values())
+    
+    # Reindex to ensure order and fill any missing combinations with 0
+    heatmap_data = heatmap_data.reindex(sleep_keys_ordered)
+    heatmap_data = heatmap_data.T.reindex(device_keys_ordered).T.fillna(0)
+    
+    # Get the ordered categorical labels for plotting
+    sleep_hour_labels = list(sleep_hour_mapping.keys())
+    device_use_labels = list(device_use_mapping.keys())
+    
+    # --- Plotly Visualization (Conversion from Matplotlib/Seaborn) ---
+    
+    # Get the Z data (counts)
+    z_data = heatmap_data.values.tolist()
+
+    # Create the Heatmap trace
+    fig = go.Figure(data=go.Heatmap(
+        z=z_data,
+        x=device_use_labels,
+        y=sleep_hour_labels,
+        colorscale='Plasma',  # Use a nice Plotly colorscale
+        colorbar=dict(title='Count'),
+        text=np.array(z_data).astype(str), # Text for annotation
+        texttemplate="%{text}", # Display the text
+        textfont={"size": 12, "color": "white"}
+    ))
+
+    # Update layout for titles and axis formatting
+    fig.update_layout(
+        title='Density of Observations: Average Hours of Sleep vs. Electronic Device Use Before Sleep',
+        xaxis_title='Frequency of Electronic Device Use Before Sleep',
+        yaxis_title='Average Hours of Sleep',
+        # Reverse Y-axis to match typical heatmap layout (lower indices at top)
+        yaxis=dict(autorange='reversed'), 
+        height=600,
+        margin=dict(l=80, r=20, t=70, b=100)
     )
-)
 
-# Create the figure
-fig = go.Figure(data=[heatmap_trace], layout=layout)
+    # Display the Plotly figure in Streamlit
+    st.plotly_chart(fig, use_container_width=True)
 
-# Add annotations (text labels for the cell values, equivalent to annot=True in seaborn)
-annotations = []
-for i, y_label in enumerate(Y):
-    for j, x_label in enumerate(X):
-        count = Z[i][j]
-        # Conditional text color for better contrast
-        text_color = 'white' if count > np.median(Z) else 'black'
-        annotations.append(go.layout.Annotation(
-            x=x_label,
-            y=y_label,
-            text=str(int(count)), # Ensure integer format
-            xref='x1',
-            yref='y1',
-            showarrow=False,
-            font=dict(color=text_color)
-        ))
-
-fig.update_layout(annotations=annotations)
-
-# fig.show() # Uncomment to display in a local environment
-# fig.write_json("sleep_device_heatmap.json") # Save for Streamlit
+if __name__ == '__main__':
+    # Streamlit entry point: run this script using `streamlit run <script_name>.py`
+    app()
 
 # ==========================================================
 # 3️⃣ Grouped Bar Chart – Sleep Quality by Caffeine Frequency
