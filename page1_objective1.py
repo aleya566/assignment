@@ -168,17 +168,11 @@ fig_sleep_year = px.bar(
         'Sleep Quality': sleep_quality_order,
         '1. What is your year of study?': year_of_study_order 
     },
-    title='Sleep Quality by Year of Study',
+    title='🌙 Sleep Quality by Year of Study',
+    labels={'1. What is your year of study?': 'Year of Study', 'Proportion': 'Proportion of Students'},
     color_discrete_sequence=px.colors.sequential.Sunset
-
 )
-
-fig_sleep_year.update_layout(
-    xaxis_title="Year of Study", 
-    yaxis_title="Proportion of Students",
-    xaxis={'tickangle': 45},
-    legend_title_text='Sleep Quality'
-)
+fig_sleep_year.update_layout(legend_title_text="Sleep Quality")
 st.plotly_chart(fig_sleep_year, use_container_width=True)
 
 # --- Footer ---
