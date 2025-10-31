@@ -196,7 +196,7 @@ def app():
         colorbar=dict(title='Count'),
         text=np.array(z_data).astype(str), # Text for annotation
         texttemplate="%{text}", # Display the text
-        textfont={"size": 12, "color": "white"}
+        textfont={"size": 12, "color": "black"}
     ))
 
     # Update layout for titles and axis formatting
