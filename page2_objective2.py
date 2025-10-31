@@ -2,11 +2,9 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import plotly.figure_factory as ff
-import plotly.graph_objects as go
-import numpy as np
 
 # --- Streamlit Page Config ---
-st.set_page_config(page_title="Lifestyle & Sleep Analysis", layout="wide")
+st.set_page_config(page_title="Student Lifestyle & Sleep Analysis", layout="wide")
 
 # --- Load Data ---
 @st.cache_data
@@ -21,7 +19,7 @@ df = load_data()
 st.title("📊 Analysis Dashboard: Lifestyle Behaviors and Their Influence on Sleep Quality")
 
 st.markdown("""
-Analyze how **caffeine consumption**, **physical activity**, and **device usage** influence students' **sleep quality** and **sleep duration**.
+Analyze how **caffeine consumption**, **physical activity**, and **device usage** influence students' **sleep quality**.
 """)
 
 # ==============================================
@@ -29,20 +27,45 @@ Analyze how **caffeine consumption**, **physical activity**, and **device usage*
 # ==============================================
 col1, col2, col3, col4 = st.columns(4)
 
+# Columns of interest
 sleep_quality_col = '6. How would you rate the overall quality of your sleep?'
 caffeine_col = '12. How often do you consume caffeine (coffee, energy drinks) to stay awake or alert?'
 device_col = '11. How often do you use electronic devices (e.g., phone, computer) before going to sleep?'
 exercise_col = '13. How often do you engage in physical activity or exercise?'
 
+# Calculate key metrics
 most_common_sleep_quality = df[sleep_quality_col].mode()[0] if not df[sleep_quality_col].empty else "N/A"
 most_common_caffeine = df[caffeine_col].mode()[0] if not df[caffeine_col].empty else "N/A"
 most_common_device = df[device_col].mode()[0] if not df[device_col].empty else "N/A"
 most_common_exercise = df[exercise_col].mode()[0] if not df[exercise_col].empty else "N/A"
 
-col1.metric("💤 Most Common Sleep Quality", most_common_sleep_quality)
-col2.metric("☕ Typical Caffeine Use", most_common_caffeine)
-col3.metric("📱 Typical Device Usage", most_common_device)
-col4.metric("🏃 Typical Physical Activity", most_common_exercise)
+col1.metric( 
+label="💤 Most Common Sleep Quality", 
+value=most_common_sleep_quality, 
+help="Most frequently reported sleep quality rating", 
+border=True 
+) 
+
+col2.metric( 
+label="☕ Typical Caffeine Use", 
+value=most_common_caffeine, 
+help="Most common caffeine consumption frequency", 
+border=True 
+) 
+
+col3.metric(
+label="📱 Typical Device Usage", 
+value=most_common_device, 
+help="Most common frequency of device use before sleep", 
+border=True 
+) 
+
+col4.metric(
+label="🏃 Typical Physical Activity", 
+value=most_common_exercise, 
+help="Most common frequency of physical activity", 
+border=True 
+)
 
 # --- Show Data ---
 with st.expander("🔍 View Dataset"):
@@ -53,13 +76,13 @@ with st.expander("🔍 View Dataset"):
 # ==============================================
 st.markdown("""
 ## 🎯 **Objective 2**
-To analyze how students lifestyle behaviors — including **caffeine consumption**, **physical activity**, and **electronic device usage** — influence their overall **sleep quality** and **sleep duration**.
+To analyze how students lifestyle behaviors — including **caffeine consumption**, **physical activity** and **electronic device usage** — influence their overall **sleep quality** and **sleep duration**. This objective focuses on identifying the behavioral factors that may contribute to **sleep disturbances** and **variations in sleep quality** among students.
 """)
 
 # ==========================================================
 # 1️⃣ Correlation Heatmap – Behaviors vs Sleep Issues
 # ==========================================================
-st.subheader("🧠 Correlation Between Lifestyle Behaviors and Sleep Issues")
+st.subheader("🧠 Lifestyle Behaviors vs Sleep Issues")
 
 behavior_sleep_df = df[[
     '3. How often do you have difficulty falling asleep at night? ',
@@ -74,7 +97,7 @@ behavior_sleep_df.columns = [
     'Difficulty falling asleep',
     'Nighttime awakenings',
     'Overall sleep quality',
-    'Electronic device use',
+    'Electronic device use before sleep',
     'Caffeine consumption',
     'Physical activity'
 ]
@@ -93,9 +116,9 @@ fig1 = ff.create_annotated_heatmap(
     showscale=True
 )
 fig1.update_layout(
-    title="Correlation Matrix: Lifestyle Behaviors vs Sleep Factors",
-    xaxis_title="Variables",
-    yaxis_title="Variables",
+    title="Correlation Matrix of Behaviors and Sleep Issues",
+    xaxis=dict(title="Variables"),
+    yaxis=dict(title="Variables"),
     title_font=dict(size=18)
 )
 st.plotly_chart(fig1, use_container_width=True)
@@ -103,46 +126,101 @@ st.plotly_chart(fig1, use_container_width=True)
 # ==========================================================
 # 2️⃣ Heatmap – Sleep Hours vs Device Use
 # ==========================================================
-st.subheader("📱 Relationship Between Sleep Hours and Device Use Before Bed")
+import streamlit as st
+import pandas as pd
+import numpy as np
+import plotly.graph_objects as go
 
-sleep_device_df = df[['4. On average, how many hours of sleep do you get on a typical day?',
-                      '11. How often do you use electronic devices (e.g., phone, computer) before going to sleep?']].copy()
-sleep_device_df.columns = ['Average sleep hours', 'Device use before sleep']
+# --- Streamlit Application Code ---
+def app():
+    # Set the title and a brief description
+    st.subheader("😴 Sleep Hours vs. Electronic Device Use")
+    st.write("Density of Observations for Different Combinations of Average Sleep Hours and Electronic Device Use Before Sleep (Plotly Heatmap)")
+    
+    # =================================================================
+    # NOTE: You MUST replace this dummy data with your actual DataFrame
+    # loaded from your source (e.g., df = pd.read_csv('your_data.csv'))
+    # The columns '4...' and '11...' must match your original data.
+    # =================================================================
+    
 
-sleep_hour_mapping = {'Less than 4 hours': 3, '4-5 hours': 4.5, '5-6 hours': 5.5,
-                      '6-7 hours': 6.5, '7-8 hours': 7.5, 'More than 8 hours': 9}
-device_use_mapping = {'Never': 0, 'Rarely (1-2 times a week)': 1.5, 'Sometimes (3-4 times a week)': 3.5,
-                      'Often (5-6 times a week)': 5.5, 'Every night': 7}
+    # --- Data Processing (as provided in your original script) ---
 
-sleep_device_df['Sleep_numeric'] = sleep_device_df['Average sleep hours'].map(sleep_hour_mapping)
-sleep_device_df['Device_numeric'] = sleep_device_df['Device use before sleep'].map(device_use_mapping)
+    # Select relevant columns
+    sleep_device_df = df[['4. On average, how many hours of sleep do you get on a typical day?',
+                          '11. How often do you use electronic devices (e.g., phone, computer) before going to sleep?']].copy()
 
-heatmap_data = sleep_device_df.pivot_table(
-    index='Sleep_numeric',
-    columns='Device_numeric',
-    aggfunc='size',
-    fill_value=0
-)
+    # Rename columns for clarity
+    sleep_device_df.columns = ['Average hours of sleep', 'Electronic device use before sleep']
 
-fig2 = go.Figure(data=go.Heatmap(
-    z=heatmap_data.values,
-    x=list(device_use_mapping.keys()),
-    y=list(sleep_hour_mapping.keys()),
-    colorscale='Sunset',
-    colorbar=dict(title='Count')
-))
+    # Map categorical sleep hours to numerical values
+    sleep_hour_mapping = {'Less than 4 hours': 3, '4-5 hours': 4.5, '5-6 hours': 5.5,
+                          '6-7 hours': 6.5, '7-8 hours': 7.5, 'More than 8 hours': 9}
 
-fig2.update_layout(
-    title='Density of Observations: Sleep Hours vs Device Use Before Sleep',
-    xaxis_title='Device Use Frequency',
-    yaxis_title='Average Sleep Hours',
-)
-st.plotly_chart(fig2, use_container_width=True)
+    sleep_device_df['Average hours of sleep_numeric'] = sleep_device_df['Average hours of sleep'].map(sleep_hour_mapping)
+
+    # Map categorical device use to numerical values
+    device_use_mapping = {'Never': 0, 'Rarely (1-2 times a week)': 1.5, 'Sometimes (3-4 times a week)': 3.5,
+                          'Often (5-6 times a week)': 5.5, 'Every night': 7}
+
+    sleep_device_df['Electronic device use before sleep_numeric'] = sleep_device_df['Electronic device use before sleep'].map(device_use_mapping)
+
+    # Create a pivot table to count occurrences
+    heatmap_data = sleep_device_df.pivot_table(index='Average hours of sleep_numeric',
+                                               columns='Electronic device use before sleep_numeric',
+                                               aggfunc='size', fill_value=0)
+
+    # Reorder index and columns for logical display using the numeric keys
+    sleep_keys_ordered = list(sleep_hour_mapping.values())
+    device_keys_ordered = list(device_use_mapping.values())
+    
+    # Reindex to ensure order and fill any missing combinations with 0
+    heatmap_data = heatmap_data.reindex(sleep_keys_ordered)
+    heatmap_data = heatmap_data.T.reindex(device_keys_ordered).T.fillna(0)
+    
+    # Get the ordered categorical labels for plotting
+    sleep_hour_labels = list(sleep_hour_mapping.keys())
+    device_use_labels = list(device_use_mapping.keys())
+    
+    # --- Plotly Visualization (Conversion from Matplotlib/Seaborn) ---
+    
+    # Get the Z data (counts)
+    z_data = heatmap_data.values.tolist()
+
+    # Create the Heatmap trace
+    fig = go.Figure(data=go.Heatmap(
+        z=z_data,
+        x=device_use_labels,
+        y=sleep_hour_labels,
+        colorscale='Sunset',  # Use a nice Plotly colorscale
+        colorbar=dict(title='Count'),
+        text=np.array(z_data).astype(str), # Text for annotation
+        texttemplate="%{text}", # Display the text
+        textfont={"size": 12, "color": "black"}
+    ))
+
+    # Update layout for titles and axis formatting
+    fig.update_layout(
+        title='Density of Observations: Average Hours of Sleep vs. Electronic Device Use Before Sleep',
+        xaxis_title='Frequency of Electronic Device Use Before Sleep',
+        yaxis_title='Average Hours of Sleep',
+        # Reverse Y-axis to match typical heatmap layout (lower indices at top)
+        yaxis=dict(autorange='reversed'), 
+        height=600,
+        margin=dict(l=80, r=20, t=70, b=100)
+    )
+
+    # Display the Plotly figure in Streamlit
+    st.plotly_chart(fig, use_container_width=True)
+
+if __name__ == '__main__':
+    # Streamlit entry point: run this script using `streamlit run <script_name>.py`
+    app()
 
 # ==========================================================
 # 3️⃣ Grouped Bar Chart – Sleep Quality by Caffeine Frequency
 # ==========================================================
-st.subheader("☕ Sleep Quality Across Different Caffeine Consumption Levels")
+st.subheader("☕ Sleep Quality by Caffeine Consumption Frequency")
 
 caffeine_sleep_df = df[df['12. How often do you consume caffeine (coffee, energy drinks) to stay awake or alert?'].isin([
     'Never', 'Rarely (1-2 times a week)', 'Sometimes (3-4 times a week)', 'Often (5-6 times a week)', 'Every day'
@@ -164,16 +242,14 @@ fig3 = px.bar(
     y='Proportion',
     color='Sleep Quality',
     barmode='group',
-    title='Sleep Quality Ratings by Caffeine Frequency',
-    labels={
-        '12. How often do you consume caffeine (coffee, energy drinks) to stay awake or alert?': 'Caffeine Consumption Frequency',
-        'Sleep Quality': 'Sleep Quality',
-        'Proportion': 'Proportion of Students'
-    },
+    title='Sleep Quality Ratings by Caffeine Consumption Frequency',
     color_discrete_sequence=px.colors.sequential.Sunset
 )
-
-fig3.update_layout(legend_title_text="Sleep Quality")
+fig3.update_layout(
+    xaxis_title='Caffeine Consumption Frequency',
+    yaxis_title='Proportion',
+    xaxis_tickangle=45
+)
 st.plotly_chart(fig3, use_container_width=True)
 
 # --- Footer ---
