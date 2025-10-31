@@ -78,7 +78,7 @@ To analyze how students lifestyle behaviors (including **caffeine consumption**,
 # ==========================================================
 # 1️⃣ Correlation Heatmap – Behaviors vs Sleep Issues
 # ==========================================================
-st.subheader("🧠 Correlation Between Lifestyle Behaviors and Sleep Issues")
+st.subheader("a) Correlation Between Lifestyle Behaviors and Sleep Issues")
 
 st.markdown("""
 A moderate positive correlation appear between electronic device use, caffeine intake and difficulty falling asleep. Nighttime awakenings also strongly correlate with frequent device use. Overall sleep quality shows a weak negative association with these behaviors, suggesting that increased screen time and caffeine may slightly worsen sleep patterns.
@@ -136,7 +136,7 @@ import plotly.graph_objects as go
 # --- Streamlit Application Code ---
 def app():
     # Set the title and a brief description
-    st.subheader("😴 Sleep Hours vs. Electronic Device Use")
+    st.subheader("b) Sleep Hours vs. Electronic Device Use")
     st.markdown("""
     Most students slept 7–8 hours or more, even while using devices often or every night before bed. Fewer students reported shorter sleep durations. This indicates that while device use before bed is common, it does not significantly reduce sleep duration for most students, although the quality of sleep may still be affected.
     """)
@@ -219,7 +219,7 @@ if __name__ == '__main__':
 # ==========================================================
 # 3️⃣ Grouped Bar Chart – Sleep Quality by Caffeine Frequency
 # ==========================================================
-st.subheader("☕ Sleep Quality by Caffeine Consumption Frequency")
+st.subheader("c) Sleep Quality by Caffeine Consumption Frequency")
 st.markdown("""
 Students who never consume caffeine reported more 'Good' and 'Very Good' sleep quality. As caffeine frequency increased, the proportion of 'Poor' and 'Very Poor' sleep rates also increased. This shows a negative trend because higher caffeine consumption tends to be associated with poorer sleep quality among students.
 """)
