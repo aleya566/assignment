@@ -81,7 +81,7 @@ To analyze how students lifestyle behaviors (including **caffeine consumption**,
 st.subheader("🧠 Correlation Between Lifestyle Behaviors and Sleep Issues")
 
 st.markdown("""
-Moderate positive correlations appear between **electronic device use**, **caffeine intake**, and **difficulty falling asleep**. Nighttime awakenings also correlate with frequent device use. Overall sleep quality shows weak negative links with these behaviors, suggesting that increased screen time and caffeine may slightly worsen sleep patterns.
+A moderate positive correlation appear between electronic device use, caffeine intake and difficulty falling asleep. Nighttime awakenings also strongly correlate with frequent device use. Overall sleep quality shows a weak negative association with these behaviors, suggesting that increased screen time and caffeine may slightly worsen sleep patterns.
 """)
 
 
@@ -138,8 +138,8 @@ def app():
     # Set the title and a brief description
     st.subheader("😴 Sleep Hours vs. Electronic Device Use")
     st.markdown("""
-    Most students sleep **7–8 hours or more**, even while **using devices often or every night** before bed. Fewer students report short sleep durations. This indicates that while device use before sleep is common, it does **not strongly reduce sleep duration** for most students although the **quality** of that sleep may still be affected.
-""")
+    Most students slept 7–8 hours or more, even while using devices often or every night before bed. Fewer students reported shorter sleep durations. This indicates that while device use before bed is common, it does not significantly reduce sleep duration for most students, although the quality of sleep may still be affected.
+    """)
 
     
 
@@ -221,8 +221,7 @@ if __name__ == '__main__':
 # ==========================================================
 st.subheader("☕ Sleep Quality by Caffeine Consumption Frequency")
 st.markdown("""
-Students who **never consume caffeine** report more **'Good' and 'Very Good' sleep quality**. As caffeine frequency increases, the proportion of **'Poor'** and **'Very Poor'** sleep rises. This reveals a negative trend because higher caffeine use tends to relate to **worse sleep quality** among students.
-""")
+Students who never consume caffeine reported more 'Good' and 'Very Good' sleep quality. As caffeine frequency increased, the proportion of 'Poor' and 'Very Poor' sleep rates also increased. This shows a negative trend because higher caffeine consumption tends to be associated with poorer sleep quality among students.
 
 
 caffeine_sleep_df = df[df['12. How often do you consume caffeine (coffee, energy drinks) to stay awake or alert?'].isin([
