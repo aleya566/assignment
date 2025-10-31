@@ -84,31 +84,26 @@ To investigate how sleep-related issues such as **insufficient rest**, **difficu
 # =====================================================
 # 1️⃣ Box Plot – Academic Performance vs Insufficient Sleep Impact
 # =====================================================
-st.subheader("📚 Academic Performance by Impact of Insufficient Sleep on Assignments")
+st.subheader("📚 Academic Performance by Sleep Impact Severity")
 
-# Map academic performance to numeric if needed
-if '15. How would you rate your overall academic performance (GPA or grades) in the past semester?_numeric' not in df.columns:
-    academic_performance_mapping = {
-        'Poor': 1, 'Below Average': 2, 'Average': 3, 'Good': 4, 'Excellent': 5
-    }
-    df['15. How would you rate your overall academic performance (GPA or grades) in the past semester?_numeric'] = df[
-        '15. How would you rate your overall academic performance (GPA or grades) in the past semester?'
-    ].map(academic_performance_mapping)
+academic_performance_mapping = {'Poor': 1, 'Below Average': 2, 'Average': 3, 'Good': 4, 'Excellent': 5}
+df['Academic Performance (Numeric)'] = df[performance_col].map(academic_performance_mapping)
 
 impact_order = ['No impact', 'Minor impact', 'Moderate impact', 'Major impact', 'Severe impact']
 
 fig1 = px.box(
     df,
-    x='10. How would you describe the impact of insufficient sleep on your ability to complete assignments and meet deadlines?',
-    y='15. How would you rate your overall academic performance (GPA or grades) in the past semester?_numeric',
-    color='10. How would you describe the impact of insufficient sleep on your ability to complete assignments and meet deadlines?',
-    category_orders={'Impact of insufficient sleep on assignments': impact_order},
+    x=sleep_impact_col,
+    y='Academic Performance (Numeric)',
+    color=sleep_impact_col,
+    category_orders={sleep_impact_col: impact_order},
     color_discrete_sequence=px.colors.sequential.Sunset,
-    title='Academic Performance by Impact of Insufficient Sleep on Assignments'
+    title="Academic Performance by Level of Sleep Impact"
 )
 fig1.update_layout(
-    xaxis_title='Impact of Insufficient Sleep on Assignments',
-    yaxis_title='Academic Performance (Numeric GPA/Grades)',
+    xaxis_title="Impact of Insufficient Sleep on Assignments",
+    yaxis_title="Academic Performance (Numeric Scale)",
+    legend_title_text="Sleep Impact Level",
     xaxis_tickangle=45
 )
 st.plotly_chart(fig1, use_container_width=True)
