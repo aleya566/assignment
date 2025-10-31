@@ -118,19 +118,63 @@ st.plotly_chart(fig1, use_container_width=True)
 # ==============================================
 # 2️⃣ Box Plot – Sleep Hours by Gender
 # ==============================================
-st.subheader("😴 Average Sleep Hours by Gender")
+import streamlit as st
+import pandas as pd
+import numpy as np
+import plotly.express as px
 
-fig2 = px.box(
-    df,
-    x='2. What is your gender?',
-    y='4. On average, how many hours of sleep do you get on a typical day?',
-    color='2. What is your gender?',
-    title='Average Sleep Hours by Gender',
-    color_discrete_sequence=px.colors.sequential.Sunset
-)
+# Define the categories and their desired order for consistent plotting
+GENDER_ORDER = ['Male', 'Female']
+SLEEP_HOURS_ORDER = ['Less than 4 hours', '4-5 hours', '5-6 hours', 
+                     '6-7 hours', '7-8 hours', 'More than 8 hours']
 
-fig2.update_layout(xaxis_title="Gender", yaxis_title="Average Sleep Hours")
-st.plotly_chart(fig2, use_container_width=True)
+def app():
+    st.title("😴 Box Plot: Average Sleep Hours by Gender")
+    st.write("Visualizing the distribution of average sleep hours for male and female students.")
+
+    # =================================================================
+    # NOTE: You MUST replace this dummy data creation block with your 
+    # actual code to load your DataFrame (e.g., df = pd.read_csv('your_data.csv')).
+    # The columns must be named '2. What is your gender?' and 
+    # '4. On average, how many hours of sleep do you get on a typical day?'.
+    # =================================================================
+    
+
+    # --- Plotly Box Plot Visualization ---
+    
+    fig = px.box(
+        df,
+        x='2. What is your gender?',
+        y='4. On average, how many hours of sleep do you get on a typical day?',
+        color='2. What is your gender?', # Used for color differentiation (like Seaborn's hue)
+        color_discrete_sequence=px.colors.sequential.Plasma, # A color scheme similar to 'flare'
+        category_orders={
+            # Enforce the order for the x-axis (Gender)
+            '2. What is your gender?': GENDER_ORDER, 
+            # Enforce the order for the y-axis (Sleep Hours)
+            '4. On average, how many hours of sleep do you get on a typical day?': SLEEP_HOURS_ORDER
+        },
+        orientation='v', # Vertical box plots
+        title='Average Sleep Hours by Gender'
+    )
+    
+    # Update layout for cleaner presentation, matching the original request
+    fig.update_layout(
+        xaxis_title='Gender',
+        yaxis_title='Average Sleep Hours',
+        # Remove the legend since the color is the same as the x-axis
+        showlegend=False,
+        # Ensure the y-axis categories are displayed correctly
+        yaxis={'categoryorder': 'array', 'categoryarray': SLEEP_HOURS_ORDER},
+        margin=dict(l=40, r=40, t=60, b=40)
+    )
+
+    # Display the Plotly figure in Streamlit
+    st.plotly_chart(fig, use_container_width=True)
+
+if __name__ == '__main__':
+    # Streamlit entry point: run this script using `streamlit run <filename>.py`
+    app()
 
 # ==============================================
 # 3️⃣ Stacked Bar Chart – Sleep Quality by Year of Study
