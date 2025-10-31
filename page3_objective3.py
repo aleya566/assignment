@@ -84,7 +84,7 @@ To investigate how sleep-related issues such as **insufficient rest**, **difficu
 # =====================================================
 # 1️⃣ Box Plot – Academic Performance vs Insufficient Sleep Impact
 # =====================================================
-st.subheader("📚 Academic Performance by Sleep Impact Severity")
+st.subheader("📚 Academic Performance by Impact of Insufficient Sleep on Assignments")
 
 academic_performance_mapping = {'Poor': 1, 'Below Average': 2, 'Average': 3, 'Good': 4, 'Excellent': 5}
 df['Academic Performance (Numeric)'] = df[performance_col].map(academic_performance_mapping)
