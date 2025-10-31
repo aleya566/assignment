@@ -16,7 +16,7 @@ def load_data():
 df = load_data()
 
 # --- Page Header ---
-st.title("🧠 Interpretation Dashboard: Impact of Sleep-Related Issues on Academic Performance")
+st.title("🧠 Interpretation Dashboard: Impact of Sleep Related Issues on Academic Performance")
 
 # ==============================================
 # 🔹 Key Metrics Section
