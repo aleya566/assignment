@@ -134,7 +134,7 @@ import plotly.graph_objects as go
 # --- Streamlit Application Code ---
 def app():
     # Set the title and a brief description
-    st.title("😴 Sleep Hours vs. Electronic Device Use")
+    st.subheader("😴 Sleep Hours vs. Electronic Device Use")
     st.write("Density of Observations for Different Combinations of Average Sleep Hours and Electronic Device Use Before Sleep (Plotly Heatmap)")
     
     # =================================================================
