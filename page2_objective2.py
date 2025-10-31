@@ -16,7 +16,7 @@ def load_data():
 df = load_data()
 
 # --- Page Title ---
-st.title("🎓 Analysis Dashboard: Lifestyle Behaviors and Their Influence on Sleep Quality")
+st.title("📊 Analysis Dashboard: Lifestyle Behaviors and Their Influence on Sleep Quality")
 
 st.markdown("""
 Analyze how **caffeine consumption**, **physical activity**, and **device usage** influence students' **sleep quality**.
