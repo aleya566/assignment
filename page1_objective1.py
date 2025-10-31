@@ -91,7 +91,7 @@ To explore how academic stress levels and sleep patterns vary across students ye
 st.subheader("😰 Academic Stress Levels by Year of Study")
 
 st.markdown("""
-This visualization shows that graduate students experience the highest proportion of **'Extremely High Stress'**, followed by third-year students. First and second year students generally report lower stress levels, with more **'Low Stress'** responses. This trend suggests that academic workload and expectations intensify as students advance through their studies, reaching a peak at the graduate level.
+This visualization shows that graduate students experience the highest proportion of 'Extremely High Stress', followed by third year students. First and second year students generally report lower stress levels, with more 'Low Stress' responses. This trend suggests that academic workload and expectations intensify as students advance through their studies, reaching a peak at the graduate level.
 """)
 
 
@@ -126,7 +126,7 @@ st.plotly_chart(fig1, use_container_width=True)
 st.subheader("😴 Average Sleep Hours by Gender")
 
 st.markdown("""
-This box plot shows both male and female students report a similar **median of 7–8 hours** of sleep, with comparable interquartile ranges. A few outliers show students sleeping far less or more than typical. Overall, gender does **not appear to significantly affect** average sleep duration among students in this dataset.
+This box plot shows both male and female students report a similar median of 7–8 hours of sleep, with comparable interquartile ranges. A few outliers show students sleeping far less or more than typical. Overall, gender does not appear to significantly affect average sleep duration among students in this dataset.
 """)
 
 
@@ -152,7 +152,7 @@ st.plotly_chart(fig2, use_container_width=True)
 # ==============================================
 st.subheader("🌙 Sleep Quality by Year of Study")
 st.markdown("""
-Most students, regardless of year, report **'Poor' or 'Very Poor' sleep quality**. However, graduate and third-year students show a higher share of **'Very Poor'** sleep, while first- and second-year students report slightly more **'Good'** quality sleep. This pattern implies that sleep quality challenges persist across all levels, possibly worsening with academic pressure.
+Most students, regardless of year, report 'Poor' or 'Very Poor' sleep quality. However, graduate and third year students show a higher share of 'Very Poor' sleep, while first and second year students report slightly more 'Good' quality sleep. This pattern implies that sleep quality challenges persist across all levels, possibly worsening with academic pressure.
 """)
 
 sleep_quality_year_crosstab = pd.crosstab(
