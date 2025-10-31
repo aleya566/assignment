@@ -222,6 +222,7 @@ if __name__ == '__main__':
 st.subheader("☕ Sleep Quality by Caffeine Consumption Frequency")
 st.markdown("""
 Students who never consume caffeine reported more 'Good' and 'Very Good' sleep quality. As caffeine frequency increased, the proportion of 'Poor' and 'Very Poor' sleep rates also increased. This shows a negative trend because higher caffeine consumption tends to be associated with poorer sleep quality among students.
+""")
 
 
 caffeine_sleep_df = df[df['12. How often do you consume caffeine (coffee, energy drinks) to stay awake or alert?'].isin([
