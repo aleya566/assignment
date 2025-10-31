@@ -112,6 +112,7 @@ fig1 = ff.create_annotated_heatmap(
     x=list(correlation_matrix.columns),
     y=list(correlation_matrix.index),
     annotation_text=correlation_matrix.round(2).values,
+    colorbar=dict(title='Count'),
     colorscale=px.colors.sequential.Sunset,
     showscale=True
 )
