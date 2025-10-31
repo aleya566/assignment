@@ -82,7 +82,7 @@ To analyze how students lifestyle behaviors — including **caffeine consumption
 # ==========================================================
 # 1️⃣ Correlation Heatmap – Behaviors vs Sleep Issues
 # ==========================================================
-st.subheader("🧠 Correlation: Lifestyle Behaviors vs Sleep Issues")
+st.subheader("🧠 Lifestyle Behaviors vs Sleep Issues")
 
 behavior_sleep_df = df[[
     '3. How often do you have difficulty falling asleep at night? ',
@@ -134,7 +134,7 @@ import plotly.graph_objects as go
 # --- Streamlit Application Code ---
 def app():
     # Set the title and a brief description
-    st.title("😴 Sleep Hours vs. Electronic Device Use Heatmap")
+    st.title("😴 Sleep Hours vs. Electronic Device Use")
     st.write("Density of Observations for Different Combinations of Average Sleep Hours and Electronic Device Use Before Sleep (Plotly Heatmap)")
     
     # =================================================================
@@ -220,7 +220,7 @@ if __name__ == '__main__':
 # ==========================================================
 # 3️⃣ Grouped Bar Chart – Sleep Quality by Caffeine Frequency
 # ==========================================================
-st.subheader("☕ Sleep Quality Ratings by Caffeine Consumption Frequency")
+st.subheader("☕ Sleep Quality by Caffeine Consumption Frequency")
 
 caffeine_sleep_df = df[df['12. How often do you consume caffeine (coffee, energy drinks) to stay awake or alert?'].isin([
     'Never', 'Rarely (1-2 times a week)', 'Sometimes (3-4 times a week)', 'Often (5-6 times a week)', 'Every day'
