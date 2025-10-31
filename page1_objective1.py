@@ -87,7 +87,7 @@ To explore how academic stress levels and sleep patterns vary across students ye
 st.subheader("😰 Academic Stress Levels by Year of Study")
 
 st.markdown("""
-This visualization shows that graduate students experience the highest proportion of **'Extremely High Stress'**, followed by third year students. First and second year students generally report lower stress levels, with more **'Low Stress'** responses. This trend suggests that academic workload and expectations intensify as students advance through their studies, reaching a peak at the graduate level.
+This visualization shows that graduate students experience the highest proportion of **'Extremely High Stress'**, followed by third year students. First year and Second year students seem to have a slightly lower proportion of the highest stress levels compared to third year and graduate students. This trend suggests that academic workload and expectations increase as students advance through their studies which reaching a peak at the graduate level.
 """)
 
 stress_year_crosstab = pd.crosstab(
