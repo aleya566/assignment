@@ -84,6 +84,11 @@ To analyze how students lifestyle behaviors — including **caffeine consumption
 # ==========================================================
 st.subheader("🧠 Correlation Between Lifestyle Behaviors and Sleep Issues")
 
+st.markdown("""
+Moderate positive correlations appear between **electronic device use**, **caffeine intake**, and **difficulty falling asleep**. Nighttime awakenings also correlate with frequent device use. Overall sleep quality shows weak negative links with these behaviors, suggesting that increased screen time and caffeine may slightly worsen sleep patterns.
+""")
+
+
 behavior_sleep_df = df[[
     '3. How often do you have difficulty falling asleep at night? ',
     '5. How often do you wake up during the night and have trouble falling back asleep?',
@@ -136,13 +141,10 @@ import plotly.graph_objects as go
 def app():
     # Set the title and a brief description
     st.subheader("😴 Sleep Hours vs. Electronic Device Use")
-    st.write("Density of Observations for Different Combinations of Average Sleep Hours and Electronic Device Use Before Sleep (Plotly Heatmap)")
-    
-    # =================================================================
-    # NOTE: You MUST replace this dummy data with your actual DataFrame
-    # loaded from your source (e.g., df = pd.read_csv('your_data.csv'))
-    # The columns '4...' and '11...' must match your original data.
-    # =================================================================
+    st.markdown("""
+    Most students sleep **7–8 hours or more**, even while **using devices often or every night** before bed. Fewer students report short sleep durations. This indicates that while device use before sleep is common, it does **not strongly reduce sleep duration** for most students — though the **quality** of that sleep may still be affected.
+""")
+
     
 
     # --- Data Processing (as provided in your original script) ---
@@ -222,6 +224,10 @@ if __name__ == '__main__':
 # 3️⃣ Grouped Bar Chart – Sleep Quality by Caffeine Frequency
 # ==========================================================
 st.subheader("☕ Sleep Quality by Caffeine Consumption Frequency")
+st.markdown("""
+Students who **never consume caffeine** report more **'Good' and 'Very Good' sleep quality**. As caffeine frequency increases, the proportion of **'Poor'** and **'Very Poor'** sleep rises. This reveals a negative trend because higher caffeine use tends to relate to **worse sleep quality** among students.
+""")
+
 
 caffeine_sleep_df = df[df['12. How often do you consume caffeine (coffee, energy drinks) to stay awake or alert?'].isin([
     'Never', 'Rarely (1-2 times a week)', 'Sometimes (3-4 times a week)', 'Often (5-6 times a week)', 'Every day'
