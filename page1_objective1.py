@@ -124,7 +124,7 @@ fig2 = px.box(
     df,
     x='2. What is your gender?',
     y='4. On average, how many hours of sleep do you get on a typical day?',
-    color='Gender',
+    color='2. What is your gender?',
     title='Average Sleep Hours by Gender',
     color_discrete_sequence=px.colors.sequential.Sunset
 )
