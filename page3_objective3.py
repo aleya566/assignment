@@ -111,46 +111,32 @@ st.plotly_chart(fig1, use_container_width=True)
 # =====================================================
 # 2️⃣ Heatmap – Concentration Difficulty vs Fatigue vs Academic Performance
 # =====================================================
-st.subheader("🔥 Average Academic Performance by Fatigue and Concentration Difficulty")
+st.subheader("🔥 Academic Performance by Fatigue and Concentration Difficulty")
 
 # Mapping categorical responses to numeric
-concentration_mapping = {'Never': 0, 'Rarely': 1, 'Sometimes': 2, 'Often': 3, 'Always': 4}
-fatigue_mapping = {'Never': 0, 'Rarely': 1, 'Sometimes': 2, 'Often': 3, 'Always': 4}
+mapping_scale = {'Never': 0, 'Rarely': 1, 'Sometimes': 2, 'Often': 3, 'Always': 4}
+df['Concentration Difficulty (Numeric)'] = df[concentration_col].map(mapping_scale)
+df['Fatigue Frequency (Numeric)'] = df[fatigue_col].map(mapping_scale)
 
-df['7. How often do you experience difficulty concentrating during lectures or studying due to lack of sleep?_numeric'] = df[
-    '7. How often do you experience difficulty concentrating during lectures or studying due to lack of sleep?'
-].map(concentration_mapping)
-df['8. How often do you feel fatigued during the day, affecting your ability to study or attend classes?_numeric'] = df[
-    '8. How often do you feel fatigued during the day, affecting your ability to study or attend classes?'
-].map(fatigue_mapping)
-
-# Ensure academic performance numeric exists
-if '15. How would you rate your overall academic performance (GPA or grades) in the past semester?_numeric' not in df.columns:
-    academic_performance_mapping = {
-        'Poor': 1, 'Below Average': 2, 'Average': 3, 'Good': 4, 'Excellent': 5
-    }
-    df['15. How would you rate your overall academic performance (GPA or grades) in the past semester?_numeric'] = df[
-        '15. How would you rate your overall academic performance (GPA or grades) in the past semester?'
-    ].map(academic_performance_mapping)
-
-# Create pivot table
+# Pivot table
 heatmap_data = df.pivot_table(
-    index='7. How often do you experience difficulty concentrating during lectures or studying due to lack of sleep?_numeric',
-    columns='8. How often do you feel fatigued during the day, affecting your ability to study or attend classes?_numeric',
-    values='15. How would you rate your overall academic performance (GPA or grades) in the past semester?_numeric',
+    index='Concentration Difficulty (Numeric)',
+    columns='Fatigue Frequency (Numeric)',
+    values='Academic Performance (Numeric)',
     aggfunc='mean'
 )
 
-# Interactive heatmap
 fig2 = px.imshow(
     heatmap_data,
     text_auto=True,
     color_continuous_scale='Sunset',
-    title='Average Academic Performance by Fatigue and Concentration Difficulty'
+    title="Average Academic Performance by Fatigue and Concentration Levels",
+    labels=dict(x="Fatigue Frequency", y="Concentration Difficulty", color="Avg Academic Perf.")
 )
 fig2.update_layout(
-    xaxis_title='Fatigue Frequency (Numeric Scale)',
-    yaxis_title='Concentration Difficulty (Numeric Scale)'
+    xaxis_title="Fatigue Frequency (Numeric Scale)",
+    yaxis_title="Concentration Difficulty (Numeric Scale)",
+    coloraxis_colorbar=dict(title="Performance")
 )
 st.plotly_chart(fig2, use_container_width=True)
 
