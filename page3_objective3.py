@@ -166,4 +166,3 @@ st.plotly_chart(fig3, use_container_width=True)
 
 # --- Footer ---
 st.markdown("---")
-st.markdown("✅ *Developed with Streamlit + Plotly | Dataset: Student Insomnia and Educational Outcomes*")
