@@ -82,7 +82,7 @@ To analyze how students lifestyle behaviors — including **caffeine consumption
 # ==========================================================
 # 1️⃣ Correlation Heatmap – Behaviors vs Sleep Issues
 # ==========================================================
-st.subheader("🧠 Lifestyle Behaviors vs Sleep Issues")
+st.subheader("🧠 Correlation Between Lifestyle Behaviors and Sleep Issues")
 
 behavior_sleep_df = df[[
     '3. How often do you have difficulty falling asleep at night? ',
