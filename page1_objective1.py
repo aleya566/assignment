@@ -91,8 +91,6 @@ To explore how academic stress levels and sleep patterns vary across students ye
 st.subheader("🎓 Academic Stress Levels by Year of Study")
 
 st.markdown("""
-**📊 Stacked Bar Chart – Stress Levels by Year of Study**
-
 This visualization shows that **academic stress tends to increase** as students advance in their studies.  
 Graduate students have the **highest proportion** of “Extremely High Stress,” followed by third-year students.  
 Meanwhile, first- and second-year students report slightly **lower stress levels** overall.  
