@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-import numpy as np
+import numpy as np  # Included for robust category ordering
 
 # --- Streamlit Page Config ---
 st.set_page_config(page_title="Student Sleep & Stress Dashboard", layout="wide")
@@ -29,11 +29,13 @@ col1, col2, col3, col4 = st.columns(4)
 
 # Clean numeric values for sleep hours
 sleep_col = '4. On average, how many hours of sleep do you get on a typical day?'
+
 df[sleep_col] = df[sleep_col].astype(str).str.extract(r'(\d+\.?\d*)')
 df[sleep_col] = pd.to_numeric(df[sleep_col], errors='coerce')
 
 # Compute summary metrics
 avg_sleep = df[sleep_col].mean()
+
 stress_col = '14. How would you describe your stress levels related to academic workload?'
 gpa_col = '15. How would you rate your overall academic performance (GPA or grades) in the past semester?'
 gender_col = '2. What is your gender?'
@@ -42,11 +44,34 @@ avg_stress = df[stress_col].mode()[0] if not df[stress_col].empty else "N/A"
 avg_gpa = df[gpa_col].mode()[0] if not df[gpa_col].empty else "N/A"
 gender_ratio = df[gender_col].value_counts(normalize=True).idxmax() if not df[gender_col].empty else "N/A"
 
-# Display metrics
-col1.metric("🕒 Average Sleep Hours", f"{avg_sleep:.1f} hrs" if not pd.isna(avg_sleep) else "N/A")
-col2.metric("😰 Most Common Stress Level", avg_stress)
-col3.metric("🎓 Typical Academic Performance", avg_gpa)
-col4.metric("🚻 Majority Gender", gender_ratio)
+# Display metrics 
+col1.metric(
+label="🕒 Average Sleep Hours", 
+value=f"{avg_sleep:.1f} hrs" if not pd.isna(avg_sleep) else "N/A", 
+help="Average number of sleep hours reported by students", 
+border=True 
+) 
+
+col2.metric(
+label="😰 Most Common Stress Level", 
+value=avg_stress, 
+help="Most frequently reported academic stress level", 
+border=True 
+) 
+
+col3.metric(
+label="🎓 Typical Academic Performance", 
+value=avg_gpa, 
+help="Most commonly reported GPA/grade category", 
+border=True 
+) 
+
+col4.metric( 
+label="🚻 Majority Gender", 
+value=gender_ratio, 
+help="Gender with highest participation", 
+border=True 
+)
 
 # --- Show Data ---
 with st.expander("🔍 View Dataset"):
@@ -82,12 +107,12 @@ fig1 = px.bar(
     x='1. What is your year of study?',
     y='Proportion',
     color='Stress Level',
-    title='🎓 Academic Stress Levels by Year of Study',
-    labels={'1. What is your year of study?': 'Year of Study', 'Proportion': 'Proportion of Students'},
+    title='Academic Stress Levels by Year of Study',
     barmode='stack',
     color_discrete_sequence=px.colors.sequential.Sunset
 )
-fig1.update_layout(legend_title_text="Stress Level")
+
+fig1.update_layout(xaxis_title="Year of Study", yaxis_title="Proportion")
 st.plotly_chart(fig1, use_container_width=True)
 
 # ==============================================
@@ -107,7 +132,9 @@ fig2 = px.box(
     },
     color_discrete_sequence=px.colors.sequential.Sunset
 )
-fig2.update_layout(legend_title_text="Gender")
+
+
+fig2.update_layout(xaxis_title="Gender", yaxis_title="Average Sleep Hours")
 st.plotly_chart(fig2, use_container_width=True)
 
 # ==============================================
@@ -141,11 +168,17 @@ fig_sleep_year = px.bar(
         'Sleep Quality': sleep_quality_order,
         '1. What is your year of study?': year_of_study_order 
     },
-    title='🌙 Sleep Quality by Year of Study',
-    labels={'1. What is your year of study?': 'Year of Study', 'Proportion': 'Proportion of Students'},
+    title='Sleep Quality by Year of Study',
     color_discrete_sequence=px.colors.sequential.Sunset
+
 )
-fig_sleep_year.update_layout(legend_title_text="Sleep Quality")
+
+fig_sleep_year.update_layout(
+    xaxis_title="Year of Study", 
+    yaxis_title="Proportion of Students",
+    xaxis={'tickangle': 45},
+    legend_title_text='Sleep Quality'
+)
 st.plotly_chart(fig_sleep_year, use_container_width=True)
 
 # --- Footer ---
