@@ -162,7 +162,7 @@ st.plotly_chart(fig2, use_container_width=True)
 # =====================================================
 # 3️⃣ Violin Plot – Academic Performance by Difficulty Concentrating
 # =====================================================
-st.subheader("🎯 Distribution of Academic Performance by Difficulty Concentrating")
+st.subheader("🎯 Academic Performance by Difficulty Concentrating")
 
 fig3 = px.violin(
     df,
