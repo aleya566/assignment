@@ -125,9 +125,14 @@ fig2 = px.box(
     x='2. What is your gender?',
     y='4. On average, how many hours of sleep do you get on a typical day?',
     color='2. What is your gender?',
-    title='Average Sleep Hours by Gender',
+    title='😴 Average Sleep Hours by Gender',
+    labels={
+        '2. What is your gender?': 'Gender',
+        '4. On average, how many hours of sleep do you get on a typical day?': 'Average Sleep Hours'
+    },
     color_discrete_sequence=px.colors.sequential.Sunset
 )
+
 
 fig2.update_layout(xaxis_title="Gender", yaxis_title="Average Sleep Hours")
 st.plotly_chart(fig2, use_container_width=True)
