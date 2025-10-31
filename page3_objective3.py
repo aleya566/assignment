@@ -101,6 +101,7 @@ fig1 = px.box(
     title="Academic Performance by Level of Sleep Impact"
 )
 fig1.update_layout(
+    title_x=0.5
     xaxis_title="Impact of Insufficient Sleep on Assignments",
     yaxis_title="Academic Performance (Numeric Scale)",
     legend_title_text="Sleep Impact Level",
