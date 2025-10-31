@@ -142,7 +142,7 @@ def app():
     # Set the title and a brief description
     st.subheader("😴 Sleep Hours vs. Electronic Device Use")
     st.markdown("""
-    Most students sleep **7–8 hours or more**, even while **using devices often or every night** before bed. Fewer students report short sleep durations. This indicates that while device use before sleep is common, it does **not strongly reduce sleep duration** for most students — though the **quality** of that sleep may still be affected.
+    Most students sleep **7–8 hours or more**, even while **using devices often or every night** before bed. Fewer students report short sleep durations. This indicates that while device use before sleep is common, it does **not strongly reduce sleep duration** for most students although the **quality** of that sleep may still be affected.
 """)
 
     
