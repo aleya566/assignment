@@ -102,7 +102,7 @@ fig1 = px.box(
     x='10. How would you describe the impact of insufficient sleep on your ability to complete assignments and meet deadlines?',
     y='15. How would you rate your overall academic performance (GPA or grades) in the past semester?_numeric',
     color='10. How would you describe the impact of insufficient sleep on your ability to complete assignments and meet deadlines?',
-    category_orders={'10. How would you describe the impact of insufficient sleep on your ability to complete assignments and meet deadlines?': impact_order},
+    category_orders={'Impact of insufficient sleep on assignments': impact_order},
     color_discrete_sequence=px.colors.sequential.Sunset,
     title='Academic Performance by Impact of Insufficient Sleep on Assignments'
 )
@@ -171,7 +171,7 @@ fig3 = px.violin(
     color='7. How often do you experience difficulty concentrating during lectures or studying due to lack of sleep?',
     box=True,
     points='all',
-    category_orders={'7. How often do you experience difficulty concentrating during lectures or studying due to lack of sleep?': ['Never', 'Rarely', 'Sometimes', 'Often', 'Always']},
+    category_orders={'Difficulty concentrating Frequency': ['Never', 'Rarely', 'Sometimes', 'Often', 'Always']},
     color_discrete_sequence=px.colors.sequential.Sunset,
     title='Distribution of Academic Performance by Difficulty Concentrating Frequency'
 )
