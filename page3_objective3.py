@@ -80,7 +80,7 @@ To investigate how sleep related issues such as **insufficient rest**, **difficu
 # =====================================================
 # 1️⃣ Box Plot – Academic Performance vs Insufficient Sleep Impact
 # =====================================================
-st.subheader("📚 Academic Performance by Impact of Insufficient Sleep on Assignments")
+st.subheader("a) Academic Performance by Impact of Insufficient Sleep on Assignments")
 st.markdown("""
 Students who reported a greater impact of insufficient sleep showed lower median academic performance. Those who said sleep deprivation had 'No Impact' achieved higher scores, while those who reported 'Severe Impact' tend to have the lowest grades. This visualization highlights the clear negative relationship between poor sleep and academic achievement.
 """)
@@ -110,7 +110,7 @@ st.plotly_chart(fig1, use_container_width=True)
 # =====================================================
 # 2️⃣ Heatmap – Concentration Difficulty vs Fatigue vs Academic Performance
 # =====================================================
-st.subheader("🔥 Academic Performance by Fatigue and Concentration Difficulty")
+st.subheader("b) Academic Performance by Fatigue and Concentration Difficulty")
 st.markdown("""
 Higher academic performance was concentrated among students who rarely feel fatigued or lost focus. As fatigue and concentration difficulty increase, grade point averages decreased. This pattern suggests that daytime fatigue and poor focus together contribute to lower academic outcomes.
 """)
@@ -144,7 +144,7 @@ st.plotly_chart(fig2, use_container_width=True)
 # =====================================================
 # 3️⃣ Violin Plot – Academic Performance by Difficulty Concentrating
 # =====================================================
-st.subheader("🎯 Academic Performance by Difficulty Concentrating")
+st.subheader("c) Academic Performance by Difficulty Concentrating")
 st.markdown("""
 Students who never or rarely had struggle to concentrate tend to achieve better grades, with most results falling in the 'Good' to 'Excellent' range. As concentration difficulties increased to 'Often' and 'Always', performance shifted downward, clustering around 'Average' or 'Below Average'. This reinforces that cognitive impairment due to poor sleep directly reduces academic success.
 """)
