@@ -192,7 +192,7 @@ def app():
         z=z_data,
         x=device_use_labels,
         y=sleep_hour_labels,
-        colorscale='Flare',  # Use a nice Plotly colorscale
+        colorscale='Sunset',  # Use a nice Plotly colorscale
         colorbar=dict(title='Count'),
         text=np.array(z_data).astype(str), # Text for annotation
         texttemplate="%{text}", # Display the text
