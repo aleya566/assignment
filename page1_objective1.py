@@ -18,10 +18,6 @@ df = load_data()
 # --- Page Title ---
 st.title("🔎 Exploration Dashboard: Academic Stress and Sleep Patterns Among Students")
 
-st.markdown("""
-Explore the relationships between **sleep habits, stress levels, and academic performance** among students.
-""")
-
 # ==============================================
 # 🔹 Key Metrics Section
 # ==============================================
