@@ -82,7 +82,7 @@ To investigate how sleep related issues such as **insufficient rest**, **difficu
 # =====================================================
 st.subheader("📚 Academic Performance by Impact of Insufficient Sleep on Assignments")
 st.markdown("""
-Students reporting **greater impact** of insufficient sleep show **lower median academic performance**. Those who say sleep loss has **'No Impact'** achieve higher scores, while those reporting **'Severe Impact'** tend to have the lowest grades. This visualization highlights a clear **negative relationship** between poor sleep and academic achievement.
+Students who reported a greater impact of insufficient sleep showed lower median academic performance. Those who said sleep deprivation had 'No Impact' achieved higher scores, while those who reported 'Severe Impact' tend to have the lowest grades. This visualization highlights the clear negative relationship between poor sleep and academic achievement.
 """)
 
 academic_performance_mapping = {'Poor': 1, 'Below Average': 2, 'Average': 3, 'Good': 4, 'Excellent': 5}
@@ -112,9 +112,8 @@ st.plotly_chart(fig1, use_container_width=True)
 # =====================================================
 st.subheader("🔥 Academic Performance by Fatigue and Concentration Difficulty")
 st.markdown("""
-Higher academic performance is concentrated among students who **rarely feel fatigued or lose focus**. As fatigue and concentration difficulty increase, average grades decline. The pattern suggests that **daytime fatigue and poor focus** jointly contribute to lower academic outcomes.
+Higher academic performance was concentrated among students who rarely feel fatigued or lost focus. As fatigue and concentration difficulty increase, grade point averages decreased. This pattern suggests that daytime fatigue and poor focus together contribute to lower academic outcomes.
 """)
-
 # Mapping categorical responses to numeric
 mapping_scale = {'Never': 0, 'Rarely': 1, 'Sometimes': 2, 'Often': 3, 'Always': 4}
 df['Concentration Difficulty (Numeric)'] = df[concentration_col].map(mapping_scale)
@@ -147,7 +146,7 @@ st.plotly_chart(fig2, use_container_width=True)
 # =====================================================
 st.subheader("🎯 Academic Performance by Difficulty Concentrating")
 st.markdown("""
-Students who **never or rarely struggle to concentrate** tend to achieve **better grades**, with most results near the 'Good' to 'Excellent' range. As concentration difficulty rises to **'Often' and 'Always'**, performance shifts downward, clustering around **'Average' or 'Below Average'**. This reinforces that **cognitive impairment from poor sleep** directly reduces academic success.
+Students who never or rarely had struggle to concentrate tend to achieve better grades, with most results falling in the 'Good' to 'Excellent' range. As concentration difficulties increased to 'Often' and 'Always', performance shifted downward, clustering around 'Average' or 'Below Average'. This reinforces that cognitive impairment due to poor sleep directly reduces academic success.
 """)
 
 fig3 = px.violin(
