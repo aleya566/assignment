@@ -18,10 +18,6 @@ df = load_data()
 # --- Page Header ---
 st.title("🧠 Interpretation Dashboard: Impact of Sleep-Related Issues on Academic Performance")
 
-st.markdown("""
-Explore how **sleep difficulties, fatigue, and insufficient rest** influence students' **academic performance**.
-""")
-
 # ==============================================
 # 🔹 Key Metrics Section
 # ==============================================
