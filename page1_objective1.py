@@ -16,7 +16,7 @@ def load_data():
 df = load_data()
 
 # --- Page Title ---
-st.title("📊 Student Insomnia and Educational Outcomes Dashboard")
+st.title("📊 Exploration Dashboard: Academic Stress and Sleep Patterns Among Students")
 
 st.markdown("""
 Explore the relationships between **sleep habits, stress levels, and academic performance** among students.
