@@ -13,9 +13,9 @@ def load_data():
 df = load_data()
 
 # --- Page imports ---
-home = st.Page("page1_objective1.py", title="Objective 1 – Sleep Distribution", icon=":material/bar_chart:", default=True)
-page2 = st.Page("page2_objective2.py", title="Objective 2 – Lifestyle Impact", icon=":material/self_improvement:")
-page3 = st.Page("page3_objective3.py", title="Objective 3 – Academic Performance", icon=":material/school:")
+home = st.Page("page1_objective1.py", title="Objective 1 – Exploration (who is affected)", icon=":material/bar_chart:", default=True)
+page2 = st.Page("page2_objective2.py", title="Objective 2 – Analysis (what causes it)", icon=":material/self_improvement:")
+page3 = st.Page("page3_objective3.py", title="Objective 3 – Interpretation (what are the effects)", icon=":material/school:")
 
 # --- Navigation setup ---
 pg = st.navigation({
