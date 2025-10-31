@@ -147,18 +147,19 @@ st.subheader("🎯 Academic Performance by Difficulty Concentrating")
 
 fig3 = px.violin(
     df,
-    x='7. How often do you experience difficulty concentrating during lectures or studying due to lack of sleep?',
-    y='15. How would you rate your overall academic performance (GPA or grades) in the past semester?_numeric',
-    color='7. How often do you experience difficulty concentrating during lectures or studying due to lack of sleep?',
+    x=concentration_col,
+    y='Academic Performance (Numeric)',
+    color=concentration_col,
     box=True,
     points='all',
-    category_orders={'Difficulty concentrating Frequency': ['Never', 'Rarely', 'Sometimes', 'Often', 'Always']},
+    category_orders={concentration_col: ['Never', 'Rarely', 'Sometimes', 'Often', 'Always']},
     color_discrete_sequence=px.colors.sequential.Sunset,
-    title='Distribution of Academic Performance by Difficulty Concentrating Frequency'
+    title="Distribution of Academic Performance by Concentration Difficulty"
 )
 fig3.update_layout(
-    xaxis_title='Difficulty Concentrating Frequency',
-    yaxis_title='Academic Performance (Numeric GPA/Grades)',
+    xaxis_title="Difficulty Concentrating Frequency",
+    yaxis_title="Academic Performance (Numeric Scale)",
+    legend_title_text="Concentration Level",
     xaxis_tickangle=45
 )
 st.plotly_chart(fig3, use_container_width=True)
