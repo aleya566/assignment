@@ -88,7 +88,7 @@ To explore how academic stress levels and sleep patterns vary across students ye
 # ==============================================
 # 1️⃣ Stacked Bar Chart – Stress Levels by Year of Study
 # ==============================================
-st.subheader("Academic Stress Levels by Year of Study")
+st.subheader("😰 Academic Stress Levels by Year of Study")
 
 st.markdown("""
 This visualization shows that graduate students experience the highest proportion of **'Extremely High Stress'**, followed by third-year students. First and second year students generally report lower stress levels, with more **'Low Stress'** responses. This trend suggests that academic workload and expectations intensify as students advance through their studies, reaching a peak at the graduate level.
@@ -123,7 +123,7 @@ st.plotly_chart(fig1, use_container_width=True)
 # ==============================================
 # 2️⃣ Box Plot – Sleep Hours by Gender
 # ==============================================
-st.subheader("Average Sleep Hours by Gender")
+st.subheader("😴 Average Sleep Hours by Gender")
 
 st.markdown("""
 This box plot shows both male and female students report a similar **median of 7–8 hours** of sleep, with comparable interquartile ranges. A few outliers show students sleeping far less or more than typical. Overall, gender does **not appear to significantly affect** average sleep duration among students in this dataset.
@@ -135,7 +135,7 @@ fig2 = px.box(
     x='2. What is your gender?',
     y='4. On average, how many hours of sleep do you get on a typical day?',
     color='2. What is your gender?',
-    title='😴 Average Sleep Hours by Gender',
+    title='Average Sleep Hours by Gender',
     labels={
         '2. What is your gender?': 'Gender',
         '4. On average, how many hours of sleep do you get on a typical day?': 'Average Sleep Hours'
@@ -150,7 +150,7 @@ st.plotly_chart(fig2, use_container_width=True)
 # ==============================================
 # 3️⃣ Stacked Bar Chart – Sleep Quality by Year of Study
 # ==============================================
-st.subheader("Sleep Quality by Year of Study")
+st.subheader("🌙 Sleep Quality by Year of Study")
 st.markdown("""
 Most students, regardless of year, report **'Poor' or 'Very Poor' sleep quality**. However, graduate and third-year students show a higher share of **'Very Poor'** sleep, while first- and second-year students report slightly more **'Good'** quality sleep. This pattern implies that sleep quality challenges persist across all levels, possibly worsening with academic pressure.
 """)
@@ -180,7 +180,7 @@ fig_sleep_year = px.bar(
         'Sleep Quality': sleep_quality_order,
         '1. What is your year of study?': year_of_study_order 
     },
-    title='🌙 Sleep Quality by Year of Study',
+    title='Sleep Quality by Year of Study',
     labels={'1. What is your year of study?': 'Year of Study', 'Proportion': 'Proportion of Students'},
     color_discrete_sequence=px.colors.sequential.Sunset
 )
