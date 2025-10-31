@@ -110,86 +110,36 @@ st.plotly_chart(fig1, use_container_width=True)
 # =====================================================
 # 2️⃣ Heatmap – Concentration Difficulty vs Fatigue vs Academic Performance
 # =====================================================
-import streamlit as st
-import pandas as pd
-import plotly.express as px
-import numpy as np
+st.subheader("🔥 Academic Performance by Fatigue and Concentration Difficulty")
+st.markdown("""
+Higher academic performance was concentrated among students who rarely feel fatigued or lost focus. As fatigue and concentration difficulty increase, grade point averages decreased. This pattern suggests that daytime fatigue and poor focus together contribute to lower academic outcomes.
+""")
+# Mapping categorical responses to numeric
+mapping_scale = {'Never': 0, 'Rarely': 1, 'Sometimes': 2, 'Often': 3, 'Always': 4}
+df['Concentration Difficulty (Numeric)'] = df[concentration_col].map(mapping_scale)
+df['Fatigue Frequency (Numeric)'] = df[fatigue_col].map(mapping_scale)
 
-# --- Configuration ---
-st.set_page_config(layout="wide", page_title="Sleep Impact Heatmap - Text Labels")
-
-# Define the question columns and mappings (using text as keys and numbers for sorting)
-COL_CONC = '7. How often do you experience difficulty concentrating during lectures or studying due to lack of sleep?'
-COL_FATIGUE = '8. How often do you feel fatigued during the day, affecting your ability to study or attend classes?'
-COL_PERF = '15. How would you rate your overall academic performance (GPA or grades) in the past semester?'
-COL_PERF_NUM = 'Academic_Performance_Numeric'
-
-# Mappings used only for sorting and numerical calculation
-ORDERED_CATEGORIES = ['Never', 'Rarely', 'Sometimes', 'Often', 'Always']
-PERFORMANCE_MAPPING = {'Poor': 1, 'Below Average': 2, 'Average': 3, 'Good': 4, 'Excellent': 5}
-
-# --- Dummy Data Generator (Replace with your actual data loading) ---
-@st.cache_data
-def load_data():
-    np.random.seed(42)
-    N = 500
-    df = pd.DataFrame({
-        COL_CONC: np.random.choice(ORDERED_CATEGORIES, N),
-        COL_FATIGUE: np.random.choice(ORDERED_CATEGORIES, N),
-        COL_PERF: np.random.choice(list(PERFORMANCE_MAPPING.keys()), N, p=[0.1, 0.2, 0.3, 0.25, 0.15])
-    })
-    return df
-
-st.title("😴 Academic Performance by Fatigue and Concentration Difficulty (Text Axes)")
-st.markdown("---")
-
-# 1. Load and Prepare Data
-df = load_data()
-
-# Apply the numeric mapping ONLY to the performance score for aggregation
-df[COL_PERF_NUM] = df[COL_PERF].map(PERFORMANCE_MAPPING)
-
-# 2. Create Pivot Table using TEXT LABELS for Index/Columns
-heatmap_data_performance = df.pivot_table(
-    index=COL_CONC,
-    columns=COL_FATIGUE,
-    values=COL_PERF_NUM,
+# Pivot table
+heatmap_data = df.pivot_table(
+    index='Concentration Difficulty (Numeric)',
+    columns='Fatigue Frequency (Numeric)',
+    values='Academic Performance (Numeric)',
     aggfunc='mean'
 )
 
-# 3. Explicitly Reorder the Index and Columns using the desired text list
-# This is the crucial step to ensure 'Never' comes before 'Always'
-heatmap_data_performance = heatmap_data_performance.reindex(index=ORDERED_CATEGORIES, fill_value=np.nan)
-heatmap_data_performance = heatmap_data_performance.reindex(columns=ORDERED_CATEGORIES, fill_value=np.nan)
-
-# 4. Create Plotly Heatmap
-# Plotly will automatically use the DataFrame's text index and column names
-fig = px.imshow(
-    heatmap_data_performance, # Pass the DataFrame directly
-    color_continuous_scale='plasma_r',
-    aspect="auto",
+fig2 = px.imshow(
+    heatmap_data,
     text_auto=True,
-    labels=dict(
-        color="Avg. Academic Performance",
-        x="Fatigue Frequency",
-        y="Concentration Difficulty Frequency"
-    ),
-    title="Average Academic Performance by Fatigue and Concentration Difficulty"
+    color_continuous_scale='Sunset',
+    title="Average Academic Performance by Fatigue and Concentration Levels",
+    labels=dict(x="Fatigue Frequency", y="Concentration Difficulty", color="Avg Academic Perf.")
 )
-
-# 5. Ensure Y-axis is ordered from Never (top) to Always (bottom)
-fig.update_yaxes(autorange="reversed")
-
-# Update layout for presentation
-fig.update_layout(
-    xaxis_title='Fatigue Frequency',
-    yaxis_title='Concentration Difficulty Frequency',
-    coloraxis_colorbar=dict(title="Avg. Score"),
-    font=dict(size=10)
+fig2.update_layout(
+    xaxis_title="Fatigue Frequency (Numeric Scale)",
+    yaxis_title="Concentration Difficulty (Numeric Scale)",
+    coloraxis_colorbar=dict(title="Performance")
 )
-
-# 6. Display the Plot in Streamlit
-st.plotly_chart(fig, use_container_width=True)
+st.plotly_chart(fig2, use_container_width=True)
 
 # =====================================================
 # 3️⃣ Violin Plot – Academic Performance by Difficulty Concentrating
