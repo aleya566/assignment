@@ -84,7 +84,7 @@ To investigate how sleep-related issues such as **insufficient rest**, **difficu
 # =====================================================
 # 1️⃣ Box Plot – Academic Performance vs Insufficient Sleep Impact
 # =====================================================
-st.subheader("📦 Academic Performance by Impact of Insufficient Sleep on Assignments")
+st.subheader("📚 Academic Performance by Impact of Insufficient Sleep on Assignments")
 
 # Map academic performance to numeric if needed
 if '15. How would you rate your overall academic performance (GPA or grades) in the past semester?_numeric' not in df.columns:
@@ -162,7 +162,7 @@ st.plotly_chart(fig2, use_container_width=True)
 # =====================================================
 # 3️⃣ Violin Plot – Academic Performance by Difficulty Concentrating
 # =====================================================
-st.subheader("🎻 Distribution of Academic Performance by Difficulty Concentrating")
+st.subheader("🎯 Distribution of Academic Performance by Difficulty Concentrating")
 
 fig3 = px.violin(
     df,
