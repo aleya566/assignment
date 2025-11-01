@@ -244,26 +244,45 @@ st.plotly_chart(fig1, use_container_width=True)
 st.subheader("b) Average Sleep Hours by Gender")
 
 st.markdown("""
-This box plot shows both male and female students report a similar median of 7–8 hours of sleep, with comparable interquartile ranges. A few outliers show students sleeping far less or more than typical. Overall, gender does not appear to significantly affect average sleep duration among students in this dataset.
+This box plot shows both male and female students report a similar median of 7–8 hours of sleep, with comparable interquartile ranges. 
+A few outliers show students sleeping far less or more than typical. Overall, gender does not appear to significantly affect average 
+sleep duration among students in this dataset.
 """)
 
+# Define column names
+gender_col = '2. What is your gender?'
+sleep_col = '4. On average, how many hours of sleep do you get on a typical day?'
 
+# Set gender order explicitly
+gender_order = ['Male', 'Female']
+
+# Create box plot
 fig2 = px.box(
     df,
-    x='2. What is your gender?',
-    y='4. On average, how many hours of sleep do you get on a typical day?',
-    color='2. What is your gender?',
+    x=gender_col,
+    y=sleep_col,
+    color=gender_col,
+    category_orders={gender_col: gender_order},  # ✅ ensures same order as Seaborn
     title='Average Sleep Hours by Gender',
     labels={
-        '2. What is your gender?': 'Gender',
-        '4. On average, how many hours of sleep do you get on a typical day?': 'Average Sleep Hours'
+        gender_col: 'Gender',
+        sleep_col: 'Average Sleep Hours'
     },
-    color_discrete_sequence=px.colors.sequential.Sunset
+    color_discrete_sequence=px.colors.sequential.Sunset,  # similar to 'flare'
+    points="all"  # ✅ show all outliers like Seaborn
 )
 
+# Update layout for consistent look
+fig2.update_layout(
+    xaxis_title="Gender",
+    yaxis_title="Average Sleep Hours",
+    showlegend=False,
+    boxmode='group'
+)
 
-fig2.update_layout(xaxis_title="Gender", yaxis_title="Average Sleep Hours")
+# Display in Streamlit
 st.plotly_chart(fig2, use_container_width=True)
+
 
 
 
