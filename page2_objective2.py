@@ -257,7 +257,7 @@ import plotly.graph_objects as go
 # --- Streamlit Application Code ---
 def app():
     # Set the title and a brief description
-    st.subheader("b) Sleep Hours vs. Electronic Device Use")
+    st.subheader("b) Average Hours of Sleep vs. Electronic Device Use Before Sleep")
     st.markdown("""
     Most students slept 7–8 hours or more, even while using devices often or every night before bed. Fewer students reported shorter sleep durations. This indicates that while device use before bed is common, it does not significantly reduce sleep duration for most students, although the quality of sleep may still be affected.
     """)
@@ -321,7 +321,7 @@ def app():
 
     # Update layout for titles and axis formatting
     fig.update_layout(
-        title='Density of Observations: Average Hours of Sleep vs. Electronic Device Use Before Sleep',
+        title='Average Hours of Sleep vs. Electronic Device Use Before Sleep',
         xaxis_title='Frequency of Electronic Device Use Before Sleep',
         yaxis_title='Average Hours of Sleep',
         # Reverse Y-axis to match typical heatmap layout (lower indices at top)
