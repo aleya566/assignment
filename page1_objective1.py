@@ -243,15 +243,7 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-# --- 1. Set up the DataFrame (Dummy Data for demonstration) ---
-# In a real application, replace this with your actual data loading
-data = {
-    'Gender': ['Male'] * 50 + ['Female'] * 50,
-    'Average Sleep Hours': pd.np.concatenate([
-        pd.np.random.normal(7.5, 1.0, 50),  # Male sleep hours
-        pd.np.random.normal(7.8, 0.9, 50)   # Female sleep hours
-    ])
-}
+
 df = pd.DataFrame(data)
 
 # Rename columns to match the query used in the original seaborn plot for clarity
