@@ -116,18 +116,25 @@ st.subheader("b) Academic Performance by Fatigue and Concentration Difficulty")
 st.markdown("""
 Higher academic performance was concentrated among students who rarely feel fatigued or lost focus. As fatigue and concentration difficulty increase, grade point averages decreased. This pattern suggests that daytime fatigue and poor focus together contribute to lower academic outcomes.
 """)
-# Mapping categorical responses to numeric
+# Mapping categorical responses to numeric (Kept for consistency, even if not directly used in the plot axes now)
 mapping_scale = {'Never': 0, 'Rarely': 1, 'Sometimes': 2, 'Often': 3, 'Always': 4}
 df['Concentration Difficulty (Numeric)'] = df[concentration_col].map(mapping_scale)
 df['Fatigue Frequency (Numeric)'] = df[fatigue_col].map(mapping_scale)
 
-# Pivot table
+# Define the correct order for categorical axes labels
+order_labels = ['Never', 'Rarely', 'Sometimes', 'Often', 'Always']
+
+# Pivot table using the original categorical columns
 heatmap_data = df.pivot_table(
-    index='Concentration Difficulty (Numeric)',
-    columns='Fatigue Frequency (Numeric)',
+    index=concentration_col,
+    columns=fatigue_col,
     values='Academic Performance (Numeric)',
     aggfunc='mean'
 )
+
+# Reindex to enforce the correct order for both axes (Y-axis: Concentration, X-axis: Fatigue)
+heatmap_data = heatmap_data.reindex(index=order_labels, columns=order_labels)
+
 
 fig2 = px.imshow(
     heatmap_data,
@@ -136,14 +143,21 @@ fig2 = px.imshow(
     title="Academic Performance by Fatigue and Concentration Difficulty",
     labels=dict(x="Fatigue Frequency", y="Concentration Difficulty", color="Avg Academic Perf.")
 )
+
+# Update layout to reflect the categorical labels (removing 'Numeric Scale')
 fig2.update_layout(
-    xaxis_title="Fatigue Frequency (Numeric Scale)",
-    yaxis_title="Concentration Difficulty (Numeric Scale)",
+    xaxis_title="Fatigue Frequency",
+    yaxis_title="Concentration Difficulty",
     coloraxis_colorbar=dict(title="Performance"),
-    height=600,  # ✅ same height
-    margin=dict(l=80, r=20, t=70, b=100),  # ✅ same margins
+    height=600,
+    margin=dict(l=80, r=20, t=70, b=100),
     title_font=dict(size=18)
 )
+
+# Ensure Y-axis ticks are ordered from 'Always' (bottom) to 'Never' (top) like the Colab chart
+# This is often done by reversing the axis.
+fig2.update_yaxes(autorange='reversed')
+
 st.plotly_chart(fig2, use_container_width=True)
 
 # =====================================================
