@@ -233,6 +233,7 @@ fig1 = px.bar(
 
 fig1.update_layout(xaxis_title="Year of Study", yaxis_title="Proportion")
 st.plotly_chart(fig1, use_container_width=True)
+title_font=dict(size=18)
 
 
 # ==============================================
