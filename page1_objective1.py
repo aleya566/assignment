@@ -239,30 +239,54 @@ fig1.update_layout(xaxis_title="Year of Study", yaxis_title="Proportion")
 st.plotly_chart(fig1, use_container_width=True)
 
 # ==============================================
-# 2️⃣ Box Plot – Sleep Hours by Gender
+# 2️⃣ Box Plot – Sleep Hours by Gender (Seaborn-style)
 # ==============================================
 st.subheader("b) Average Sleep Hours by Gender")
 
 st.markdown("""
-This box plot shows both male and female students report a similar median of 7–8 hours of sleep, with comparable interquartile ranges. A few outliers show students sleeping far less or more than typical. Overall, gender does not appear to significantly affect average sleep duration among students in this dataset.
+This box plot shows both male and female students report a similar median of 7–8 hours of sleep, with comparable interquartile ranges. 
+A few outliers show students sleeping far less or more than typical. Overall, gender does not appear to significantly affect average 
+sleep duration among students in this dataset.
 """)
 
+# Column references
+gender_col = '2. What is your gender?'
+sleep_col = '4. On average, how many hours of sleep do you get on a typical day?'
+
+# Gender order
+gender_order = ['Male', 'Female']
+
+# Use actual Seaborn 'flare' colors (manually matched)
+flare_colors = ['#F7E5CF', '#EF8A62']  # light peach & coral tone from Seaborn flare
 
 fig2 = px.box(
     df,
-    x='2. What is your gender?',
-    y='4. On average, how many hours of sleep do you get on a typical day?',
-    color='2. What is your gender?',
+    x=gender_col,
+    y=sleep_col,
+    color=gender_col,
+    category_orders={gender_col: gender_order},
     title='Average Sleep Hours by Gender',
     labels={
-        '2. What is your gender?': 'Gender',
-        '4. On average, how many hours of sleep do you get on a typical day?': 'Average Sleep Hours'
+        gender_col: 'Gender',
+        sleep_col: 'Average Sleep Hours'
     },
-    color_discrete_sequence=px.colors.sequential.Sunset
+    color_discrete_sequence=flare_colors,
+    points="all"  # show outliers
 )
 
+# Make it closer to Seaborn look
+fig2.update_traces(boxmean=False, marker=dict(opacity=0.6, size=6))  # smaller outlier points
+fig2.update_layout(
+    xaxis_title="Gender",
+    yaxis_title="Average Sleep Hours",
+    font=dict(size=14),
+    plot_bgcolor='white',
+    paper_bgcolor='white',
+    showlegend=False,
+    margin=dict(l=40, r=40, t=60, b=40)
+)
 
-fig2.update_layout(xaxis_title="Gender", yaxis_title="Average Sleep Hours")
+# Display plot
 st.plotly_chart(fig2, use_container_width=True)
 
 
