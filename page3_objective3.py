@@ -132,7 +132,7 @@ fig2 = px.imshow(
     heatmap_data,
     text_auto=True,
     color_continuous_scale='Sunset',
-    title="Average Academic Performance by Fatigue and Concentration Levels",
+    title="Academic Performance by Fatigue and Concentration Difficulty",
     labels=dict(x="Fatigue Frequency", y="Concentration Difficulty", color="Avg Academic Perf.")
 )
 fig2.update_layout(
@@ -159,7 +159,7 @@ fig3 = px.violin(
     points='all',
     category_orders={concentration_col: ['Never', 'Rarely', 'Sometimes', 'Often', 'Always']},
     color_discrete_sequence=px.colors.sequential.Sunset,
-    title="Distribution of Academic Performance by Concentration Difficulty"
+    title="Academic Performance by Difficulty Concentrating"
 )
 fig3.update_layout(
     xaxis_title="Difficulty Concentrating Frequency",
