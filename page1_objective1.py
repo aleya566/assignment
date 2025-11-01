@@ -15,6 +15,129 @@ def load_data():
 
 df = load_data()
 
+
+# --- Define logical order for all categorical columns ---
+
+category_orders = {
+    # Year of study
+    '1. What is your year of study?': [
+        'First year', 'Second year', 'Third year', 'Graduate student'
+    ],
+
+    # Gender
+    '2. What is your gender?': [
+        'Male', 'Female'
+    ],
+
+    # Sleep difficulty frequency
+    '3. How often do you have difficulty falling asleep at night? ': [
+        'Never',
+        'Rarely (1-2 times a week)',
+        'Sometimes (3-4 times a week)',
+        'Often (5-6 times a week)',
+        'Every night'
+    ],
+
+    # Average sleep hours
+    '4. On average, how many hours of sleep do you get on a typical day?': [
+        'Less than 4 hours',
+        '4-5 hours',
+        '6-7 hours',
+        '7-8 hours',
+        'More than 8 hours'
+    ],
+
+    # Waking up and trouble falling asleep
+    '5. How often do you wake up during the night and have trouble falling back asleep?': [
+        'Never',
+        'Rarely (1-2 times a week)',
+        'Sometimes (3-4 times a week)',
+        'Often (5-6 times a week)',
+        'Every night'
+    ],
+
+    # Overall sleep quality
+    '6. How would you rate the overall quality of your sleep?': [
+        'Very poor',
+        'Poor',
+        'Average',
+        'Good',
+        'Very good'
+    ],
+
+    # Difficulty concentrating
+    '7. How often do you experience difficulty concentrating during lectures or studying due to lack of sleep?': [
+        'Never', 'Rarely', 'Sometimes', 'Often', 'Always'
+    ],
+
+    # Fatigue during the day
+    '8. How often do you feel fatigued during the day, affecting your ability to study or attend classes?': [
+        'Never', 'Rarely', 'Sometimes', 'Often', 'Always'
+    ],
+
+    # Missing/skipping classes
+    '9. How often do you miss or skip classes due to sleep-related issues (e.g., insomnia, feeling tired)?': [
+        'Never',
+        'Rarely (1-2 times a month)',
+        'Sometimes (1-2 times a week)',
+        'Often (3-4 times a week)',
+        'Always'
+    ],
+
+    # Impact of insufficient sleep
+    '10. How would you describe the impact of insufficient sleep on your ability to complete assignments and meet deadlines?': [
+        'No impact',
+        'Minor impact',
+        'Moderate impact',
+        'Major impact',
+        'Severe impact'
+    ],
+
+    # Use of electronic devices
+    '11. How often do you use electronic devices (e.g., phone, computer) before going to sleep?': [
+        'Never',
+        'Rarely (1-2 times a week)',
+        'Sometimes (3-4 times a week)',
+        'Often (5-6 times a week)',
+        'Every night'
+    ],
+
+    # Caffeine consumption
+    '12. How often do you consume caffeine (coffee, energy drinks) to stay awake or alert?': [
+        'Never',
+        'Rarely (1-2 times a week)',
+        'Sometimes (3-4 times a week)',
+        'Often (5-6 times a week)',
+        'Every day'
+    ],
+
+    # Physical activity
+    '13. How often do you engage in physical activity or exercise?': [
+        'Never',
+        'Rarely (1-2 times a week)',
+        'Sometimes (3-4 times a week)',
+        'Often (5-6 times a week)',
+        'Every day'
+    ],
+
+    # Academic stress levels
+    '14. How would you describe your stress levels related to academic workload?': [
+        'No stress', 'Low stress', 'High stress', 'Extremely high stress'
+    ],
+
+    # Academic performance
+    '15. How would you rate your overall academic performance (GPA or grades) in the past semester?': [
+        'Poor', 'Below Average', 'Average', 'Good', 'Excellent'
+    ]
+}
+
+# --- Apply all orders automatically ---
+for col, order in category_orders.items():
+    if col in df.columns:
+        df[col] = pd.Categorical(df[col], categories=order, ordered=True)
+
+
+
 # --- Page Title ---
 st.title("🔎 Exploration Dashboard: Academic Stress and Sleep Patterns Among Students")
 
