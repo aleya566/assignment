@@ -289,18 +289,48 @@ plot_data_sleep_year = sleep_quality_year_crosstab.reset_index().melt(
 sleep_quality_order = ['Very Poor', 'Poor', 'Average', 'Good', 'Very Good']
 year_of_study_order = sorted(plot_data_sleep_year['1. What is your year of study?'].unique())
 
+this is still not in order 
+
+# ==============================================
+# 3️⃣ Stacked Bar Chart – Sleep Quality by Year of Study
+# ==============================================
+st.subheader("c) Sleep Quality by Year of Study")
+st.markdown("""
+Most students, regardless of year, reported 'Poor' or 'Very Poor' sleep quality. However, graduate and third year students showed a higher percentage of 'Very Poor' sleep, while first and second year students reported slightly higher 'Good' sleep quality. This pattern suggests that sleep quality challenges persist across all levels, possibly worsening by academic stress.
+""")
+
+
+sleep_quality_year_crosstab = pd.crosstab(
+    df['1. What is your year of study?'], 
+    df['6. How would you rate the overall quality of your sleep?'], 
+    normalize='index'
+)
+
+plot_data_sleep_year = sleep_quality_year_crosstab.reset_index().melt(
+    id_vars='1. What is your year of study?',
+    var_name='Sleep Quality',
+    value_name='Proportion'
+)
+
+sleep_quality_order = ['Very Poor', 'Poor', 'Average', 'Good', 'Very Good']
+year_of_study_order = sorted(plot_data_sleep_year['1. What is your year of study?'].unique())
+
 fig_sleep_year = px.bar(
     plot_data_sleep_year,
     x='1. What is your year of study?',
     y='Proportion',
     color='Sleep Quality',
     barmode='stack',
+    category_orders={
+        'Sleep Quality': sleep_quality_order,
+        '1. What is your year of study?': year_of_study_order 
+    },
     title='Sleep Quality by Year of Study',
     labels={'1. What is your year of study?': 'Year of Study', 'Proportion': 'Proportion of Students'},
     color_discrete_sequence=px.colors.sequential.Sunset
 )
-
-    title='Sleep Quality by Year of Study',
+fig_sleep_year.update_layout(legend_title_text="Sleep Quality")
+st.plotly_chart(fig_sleep_year, use_container_width=True)
     labels={'1. What is your year of study?': 'Year of Study', 'Proportion': 'Proportion of Students'},
     color_discrete_sequence=px.colors.sequential.Sunset
 )
