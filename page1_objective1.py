@@ -295,10 +295,11 @@ fig_sleep_year = px.bar(
     y='Proportion',
     color='Sleep Quality',
     barmode='stack',
-    category_orders={
-        'Sleep Quality': sleep_quality_order,
-        '1. What is your year of study?': year_of_study_order 
-    },
+    title='Sleep Quality by Year of Study',
+    labels={'1. What is your year of study?': 'Year of Study', 'Proportion': 'Proportion of Students'},
+    color_discrete_sequence=px.colors.sequential.Sunset
+)
+
     title='Sleep Quality by Year of Study',
     labels={'1. What is your year of study?': 'Year of Study', 'Proportion': 'Proportion of Students'},
     color_discrete_sequence=px.colors.sequential.Sunset
