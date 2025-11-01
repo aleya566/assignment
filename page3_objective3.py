@@ -4,7 +4,7 @@ import plotly.express as px
 import plotly.figure_factory as ff
 
 # --- Streamlit Page Config ---
-st.set_page_config(page_title="Impact of Sleep Issues on Academic Performance", layout="wide")
+st.set_page_config(page_title="Interpretation Dashboard: Impact of Sleep Related Issues on Academic Performance", layout="wide")
 
 # --- Load Dataset ---
 @st.cache_data
