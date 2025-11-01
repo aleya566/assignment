@@ -241,7 +241,7 @@ st.plotly_chart(fig1, use_container_width=True)
 st.subheader("b) Average Sleep Hours by Gender")
 
 st.markdown("""
-This box plot shows both male and female students report a similar median of **7–8 hours of sleep category**, with comparable interquartile ranges. A few outliers show students sleeping far less or more than typical. Overall, gender does not appear to significantly affect typical sleep duration category among students in this dataset.
+This box plot shows both male and female students report a similar median of 7–8 hours of sleep category, with comparable interquartile ranges. A few outliers show students sleeping far less or more than typical. Overall, gender does not appear to significantly affect typical sleep duration category among students in this dataset.
 """)
 
 fig2 = px.box(
