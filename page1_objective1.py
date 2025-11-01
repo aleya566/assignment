@@ -231,7 +231,11 @@ fig1 = px.bar(
     color_discrete_sequence=px.colors.sequential.Sunset
 )
 
-fig1.update_layout(xaxis_title="Year of Study", yaxis_title="Proportion")
+fig1.update_layout(
+    xaxis_title="Year of Study",
+    yaxis_title="Proportion",
+    title_font=dict(size=18)
+)
 st.plotly_chart(fig1, use_container_width=True)
 
 
@@ -261,7 +265,11 @@ fig2 = px.box(
 fig2.update_xaxes(categoryorder='array', categoryarray=category_orders[gender_col])
 fig2.update_yaxes(categoryorder='array', categoryarray=category_orders[sleep_col])
 
-fig2.update_layout(xaxis_title="Gender", yaxis_title="Average Sleep Hours Category")
+fig2.update_layout(
+    xaxis_title="Gender",
+    yaxis_title="Average Sleep Hours Category",
+    title_font=dict(size=18)
+)
 st.plotly_chart(fig2, use_container_width=True)
 
 # ==============================================
@@ -336,7 +344,10 @@ fig_sleep_year = px.bar(
     color_discrete_sequence=px.colors.sequential.Sunset
 )
 
-fig_sleep_year.update_layout(legend_title_text="Sleep Quality")
+fig_sleep_year.update_layout(
+    legend_title_text="Sleep Quality",
+    title_font=dict(size=18)
+)
 
 # 📤 STEP 7: Display in Streamlit
 st.plotly_chart(fig_sleep_year, use_container_width=True)
