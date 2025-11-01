@@ -4,7 +4,7 @@ import plotly.express as px
 import numpy as np
 
 # --- Streamlit Page Config ---
-st.set_page_config(page_title="Student Sleep & Stress Dashboard", layout="wide")
+st.set_page_config(page_title="🔎 Exploration Dashboard: Academic Stress and Sleep Patterns Among Students", layout="wide")
 
 # --- Load Data ---
 @st.cache_data
