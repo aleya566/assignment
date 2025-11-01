@@ -287,7 +287,8 @@ plot_data_sleep_year = sleep_quality_year_crosstab.reset_index().melt(
 )
 
 sleep_quality_order = ['Very Poor', 'Poor', 'Average', 'Good', 'Very Good']
-year_of_study_order = sorted(plot_data_sleep_year['1. What is your year of study?'].unique())
+year_of_study_order = ['First year', 'Second year', 'Third year', 'Graduate student']
+
 
 fig_sleep_year = px.bar(
     plot_data_sleep_year,
