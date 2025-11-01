@@ -167,7 +167,10 @@ fig3.update_layout(
     xaxis_title="Difficulty Concentrating Frequency",
     yaxis_title="Academic Performance (Numeric Scale)",
     legend_title_text="Concentration Level",
-    xaxis_tickangle=45
+    xaxis_tickangle=45,
+    height=600,  # same as the box plot shown in your screenshot
+    margin=dict(l=60, r=40, t=70, b=80),
+    title_font=dict(size=18)
 )
 st.plotly_chart(fig3, use_container_width=True)
 
