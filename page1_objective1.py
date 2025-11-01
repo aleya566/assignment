@@ -238,6 +238,66 @@ fig1 = px.bar(
 fig1.update_layout(xaxis_title="Year of Study", yaxis_title="Proportion")
 st.plotly_chart(fig1, use_container_width=True)
 
+
+import streamlit as st
+import pandas as pd
+import plotly.express as px
+
+# --- 1. Set up the DataFrame (Dummy Data for demonstration) ---
+# In a real application, replace this with your actual data loading
+data = {
+    'Gender': ['Male'] * 50 + ['Female'] * 50,
+    'Average Sleep Hours': pd.np.concatenate([
+        pd.np.random.normal(7.5, 1.0, 50),  # Male sleep hours
+        pd.np.random.normal(7.8, 0.9, 50)   # Female sleep hours
+    ])
+}
+df = pd.DataFrame(data)
+
+# Rename columns to match the query used in the original seaborn plot for clarity
+df.columns = ['2. What is your gender?', '4. On average, how many hours of sleep do you get on a typical day?']
+
+
+# --- 2. Create the Plotly Box Plot ---
+def create_sleep_hours_plot(data_frame):
+    """Generates the Plotly Box Plot for Average Sleep Hours by Gender."""
+    
+    # Use Plotly Express to create the box plot
+    fig = px.box(
+        data_frame,
+        x='2. What is your gender?',                  # X-axis: Gender
+        y='4. On average, how many hours of sleep do you get on a typical day?',  # Y-axis: Sleep Hours
+        color='2. What is your gender?',             # Color-code by Gender (similar to seaborn's hue)
+        category_orders={"2. What is your gender?": ["Male", "Female"]},  # Ensure order
+        title='Average Sleep Hours by Gender',       # Plot Title
+        labels={                                     # Rename axis labels
+            '2. What is your gender?': 'Gender',
+            '4. On average, how many hours of sleep do you get on a typical day?': 'Average Sleep Hours'
+        },
+        # Customize colors (optional, using default Plotly colors here)
+        # color_discrete_map={'Male': 'yellow', 'Female': 'orange'} 
+    )
+
+    # Optional: Further layout customization (cleaner look)
+    fig.update_layout(
+        xaxis_title='Gender',
+        yaxis_title='Average Sleep Hours',
+        showlegend=False,
+        plot_bgcolor='white',  # Set background color
+        yaxis=dict(gridcolor='lightgray')
+    )
+    
+    return fig
+
+# --- 3. Streamlit App Layout ---
+st.set_page_config(layout="wide")
+st.title("Box Plot - Average Sleep Hours by Gender (Plotly in Streamlit)")
+
+# Generate and display the plot
+plotly_figure = create_sleep_hours_plot(df)
+st.plotly_chart(plotly_figure, use_container_width=True)
+
+
 # ==============================================
 # 2️⃣ Box Plot – Sleep Hours by Gender
 # ==============================================
