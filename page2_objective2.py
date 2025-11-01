@@ -4,7 +4,7 @@ import plotly.express as px
 import plotly.figure_factory as ff
 
 # --- Streamlit Page Config ---
-st.set_page_config(page_title="Student Lifestyle & Sleep Analysis", layout="wide")
+st.set_page_config(page_title="Analysis Dashboard: Lifestyle Behaviors and Their Influence on Sleep Quality", layout="wide")
 
 # --- Load Data ---
 @st.cache_data
