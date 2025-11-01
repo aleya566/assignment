@@ -239,7 +239,7 @@ fig1 = ff.create_annotated_heatmap(
     showscale=True
 )
 fig1.update_layout(
-    title="Correlation Matrix of Behaviors and Sleep Issues",
+    title="Correlation Between Lifestyle Behaviors and Sleep Issues",
     xaxis=dict(title="Variables"),
     yaxis=dict(title="Variables"),
     title_font=dict(size=18)
@@ -340,7 +340,7 @@ if __name__ == '__main__':
 # ==========================================================
 # 3️⃣ Grouped Bar Chart – Sleep Quality by Caffeine Frequency
 # ==========================================================
-st.subheader("c) Sleep Quality by Caffeine Consumption Frequency")
+st.subheader("c) Sleep Quality Rating by Caffeine Consumption Frequency")
 st.markdown("""
 Students who never consume caffeine reported more 'Good' and 'Very Good' sleep quality. As caffeine frequency increased, the proportion of 'Poor' and 'Very Poor' sleep rates also increased. This shows a negative trend because higher caffeine consumption tends to be associated with poorer sleep quality among students.
 """)
