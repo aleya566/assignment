@@ -272,27 +272,54 @@ st.plotly_chart(fig2, use_container_width=True)
 # ==============================================
 st.subheader("c) Sleep Quality by Year of Study")
 st.markdown("""
-Most students, regardless of year, reported 'Poor' or 'Very Poor' sleep quality. However, graduate and third year students showed a higher percentage of 'Very Poor' sleep, while first and second year students reported slightly higher 'Good' sleep quality. This pattern suggests that sleep quality challenges persist across all levels, possibly worsening by academic stress.
+Most students, regardless of year, reported 'Poor' or 'Very Poor' sleep quality. However, graduate and third-year students showed a higher percentage of 'Very Poor' sleep, while first and second-year students reported slightly higher 'Good' sleep quality. This pattern suggests that sleep quality challenges persist across all levels, possibly worsening due to academic stress.
 """)
 
+# 🧹 STEP 1: Clean and standardize text (important for correct category matching)
+df['1. What is your year of study?'] = (
+    df['1. What is your year of study?']
+    .str.strip()
+    .str.title()  # e.g., 'Graduate Student'
+)
 
+df['6. How would you rate the overall quality of your sleep?'] = (
+    df['6. How would you rate the overall quality of your sleep?']
+    .str.strip()
+    .str.title()  # e.g., 'Very Poor', 'Good', etc.
+)
+
+# 🧭 STEP 2: Define correct logical orders
+year_of_study_order = ['First Year', 'Second Year', 'Third Year', 'Graduate Student']
+sleep_quality_order = ['Very Poor', 'Poor', 'Average', 'Good', 'Very Good']
+
+# 🗂️ STEP 3: Convert to categorical type with specified order
+df['1. What is your year of study?'] = pd.Categorical(
+    df['1. What is your year of study?'],
+    categories=year_of_study_order,
+    ordered=True
+)
+
+df['6. How would you rate the overall quality of your sleep?'] = pd.Categorical(
+    df['6. How would you rate the overall quality of your sleep?'],
+    categories=sleep_quality_order,
+    ordered=True
+)
+
+# 📊 STEP 4: Create crosstab for proportions
 sleep_quality_year_crosstab = pd.crosstab(
-    df['1. What is your year of study?'], 
-    df['6. How would you rate the overall quality of your sleep?'], 
+    df['1. What is your year of study?'],
+    df['6. How would you rate the overall quality of your sleep?'],
     normalize='index'
 )
 
+# 📈 STEP 5: Reshape data for Plotly
 plot_data_sleep_year = sleep_quality_year_crosstab.reset_index().melt(
     id_vars='1. What is your year of study?',
     var_name='Sleep Quality',
     value_name='Proportion'
 )
 
-sleep_quality_order = ['Very Poor', 'Poor', 'Average', 'Good', 'Very Good']
-year_of_study_order = ['First year', 'Second year', 'Third year', 'Graduate student']
-
-
-
+# 🎨 STEP 6: Plot stacked bar chart
 fig_sleep_year = px.bar(
     plot_data_sleep_year,
     x='1. What is your year of study?',
@@ -301,13 +328,20 @@ fig_sleep_year = px.bar(
     barmode='stack',
     category_orders={
         'Sleep Quality': sleep_quality_order,
-        '1. What is your year of study?': year_of_study_order 
+        '1. What is your year of study?': year_of_study_order
     },
     title='Sleep Quality by Year of Study',
-    labels={'1. What is your year of study?': 'Year of Study', 'Proportion': 'Proportion of Students'},
+    labels={
+        '1. What is your year of study?': 'Year of Study',
+        'Proportion': 'Proportion of Students'
+    },
     color_discrete_sequence=px.colors.sequential.Sunset
 )
+
 fig_sleep_year.update_layout(legend_title_text="Sleep Quality")
+
+# 📤 STEP 7: Display in Streamlit
 st.plotly_chart(fig_sleep_year, use_container_width=True)
+
 # --- Footer ---
 st.markdown("---")
