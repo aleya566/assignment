@@ -233,7 +233,6 @@ fig1 = px.bar(
 
 fig1.update_layout(xaxis_title="Year of Study", yaxis_title="Proportion")
 st.plotly_chart(fig1, use_container_width=True)
-title_font=dict(size=18)
 
 
 # ==============================================
@@ -338,7 +337,6 @@ fig_sleep_year = px.bar(
 )
 
 fig_sleep_year.update_layout(legend_title_text="Sleep Quality")
-title_font=dict(size=18)
 
 # 📤 STEP 7: Display in Streamlit
 st.plotly_chart(fig_sleep_year, use_container_width=True)
