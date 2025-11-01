@@ -286,8 +286,21 @@ plot_data_sleep_year = sleep_quality_year_crosstab.reset_index().melt(
     value_name='Proportion'
 )
 
-sleep_quality_order = ['Very Poor', 'Poor', 'Average', 'Good', 'Very Good']
-year_of_study_order = ['First year', 'Second year', 'Third year', 'Graduate student']
+#sleep_quality_order = ['Very Poor', 'Poor', 'Average', 'Good', 'Very Good']#
+#year_of_study_order = ['First year', 'Second year', 'Third year', 'Graduate student']#
+
+# Define the correct order for 'Year of Study' and 'Sleep Quality'
+df['1. What is your year of study?'] = pd.Categorical(
+    df['1. What is your year of study?'],
+    categories=['First year', 'Second year', 'Third year', 'Graduate student'],
+    ordered=True
+)
+
+df['6. How would you rate the overall quality of your sleep?'] = pd.Categorical(
+    df['6. How would you rate the overall quality of your sleep?'],
+    categories=['Very Poor', 'Poor', 'Average', 'Good', 'Very Good'],
+    ordered=True
+)
 
 
 fig_sleep_year = px.bar(
