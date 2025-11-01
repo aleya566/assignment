@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-import numpy as np
+import numpy as np  # Included for robust category ordering
 
 # --- Streamlit Page Config ---
 st.set_page_config(page_title="Student Sleep & Stress Dashboard", layout="wide")
@@ -137,6 +137,7 @@ for col, order in category_orders.items():
         df[col] = pd.Categorical(df[col], categories=order, ordered=True)
 
 
+
 # --- Page Title ---
 st.title("🔎 Exploration Dashboard: Academic Stress and Sleep Patterns Among Students")
 
@@ -145,15 +146,18 @@ st.title("🔎 Exploration Dashboard: Academic Stress and Sleep Patterns Among S
 # ==============================================
 col1, col2, col3, col4 = st.columns(4)
 
-# Define column names for clarity
+# Clean numeric values for sleep hours
 sleep_col = '4. On average, how many hours of sleep do you get on a typical day?'
+
+df[sleep_col] = df[sleep_col].astype(str).str.extract(r'(\d+\.?\d*)')
+df[sleep_col] = pd.to_numeric(df[sleep_col], errors='coerce')
+
+# Compute summary metrics
+avg_sleep = df[sleep_col].mean()
+
 stress_col = '14. How would you describe your stress levels related to academic workload?'
 gpa_col = '15. How would you rate your overall academic performance (GPA or grades) in the past semester?'
 gender_col = '2. What is your gender?'
-
-# *** PEMBETULAN UTAMA: Menggunakan Modus kerana data adalah kategori ***
-# Compute summary metrics using MODE (most frequent category)
-avg_sleep_category = df[sleep_col].mode()[0] if not df[sleep_col].empty else "N/A"
 
 avg_stress = df[stress_col].mode()[0] if not df[stress_col].empty else "N/A"
 avg_gpa = df[gpa_col].mode()[0] if not df[gpa_col].empty else "N/A"
@@ -161,9 +165,9 @@ gender_ratio = df[gender_col].value_counts(normalize=True).idxmax() if not df[ge
 
 # Display metrics 
 col1.metric(
-label="🕒 Most Common Sleep Hours", # Label diubah
-value=avg_sleep_category, # Menggunakan Modus/Kategori
-help="Most frequently reported average sleep duration category", 
+label="🕒 Average Sleep Hours", 
+value=f"{avg_sleep:.1f} hrs" if not pd.isna(avg_sleep) else "N/A", 
+help="Average number of sleep hours reported by students", 
 border=True 
 ) 
 
@@ -235,33 +239,33 @@ fig1.update_layout(xaxis_title="Year of Study", yaxis_title="Proportion")
 st.plotly_chart(fig1, use_container_width=True)
 
 
+
+
 # ==============================================
-# 2️⃣ Box Plot – Sleep Hours by Gender (KATEGORI)
+# 2️⃣ Box Plot – Sleep Hours by Gender
 # ==============================================
 st.subheader("b) Average Sleep Hours by Gender")
 
 st.markdown("""
-This box plot shows both male and female students report a similar median of **7–8 hours of sleep category**, with comparable interquartile ranges. A few outliers show students sleeping far less or more than typical. Overall, gender does not appear to significantly affect typical sleep duration category among students in this dataset.
+This box plot shows both male and female students report a similar median of 7–8 hours of sleep, with comparable interquartile ranges. A few outliers show students sleeping far less or more than typical. Overall, gender does not appear to significantly affect average sleep duration among students in this dataset.
 """)
+
 
 fig2 = px.box(
     df,
-    x=gender_col,
-    y=sleep_col, # Kekal menggunakan lajur kategori yang telah diuruskan
-    color=gender_col,
-    title='Average Sleep Hours Category by Gender',
+    x='2. What is your gender?',
+    y='4. On average, how many hours of sleep do you get on a typical day?',
+    color='2. What is your gender?',
+    title='Average Sleep Hours by Gender',
     labels={
-        gender_col: 'Gender',
-        sleep_col: 'Average Sleep Hours Category' # Label dikemas kini
+        '2. What is your gender?': 'Gender',
+        '4. On average, how many hours of sleep do you get on a typical day?': 'Average Sleep Hours'
     },
     color_discrete_sequence=px.colors.sequential.Sunset
 )
 
-# *** PEMBETULAN FINAL: Memaksa Plotly untuk menggunakan susunan kategori ordinal ***
-fig2.update_xaxes(categoryorder='array', categoryarray=category_orders[gender_col])
-fig2.update_yaxes(categoryorder='array', categoryarray=category_orders[sleep_col])
 
-fig2.update_layout(xaxis_title="Gender", yaxis_title="Average Sleep Hours Category")
+fig2.update_layout(xaxis_title="Gender", yaxis_title="Average Sleep Hours")
 st.plotly_chart(fig2, use_container_width=True)
 
 # ==============================================
@@ -272,23 +276,22 @@ st.markdown("""
 Most students, regardless of year, reported 'Poor' or 'Very Poor' sleep quality. However, graduate and third year students showed a higher percentage of 'Very Poor' sleep, while first and second year students reported slightly higher 'Good' sleep quality. This pattern suggests that sleep quality challenges persist across all levels, possibly worsening due to academic stress.
 """)
 
-# 🧹 STEP 1: Clean and standardize text (hanya untuk plot ini)
+# 🧹 STEP 1: Clean and standardize text (important for correct category matching)
 df['1. What is your year of study?'] = (
     df['1. What is your year of study?']
     .str.strip()
-    .str.title()
+    .str.title()  # e.g., 'Graduate Student'
 )
 
 df['6. How would you rate the overall quality of your sleep?'] = (
     df['6. How would you rate the overall quality of your sleep?']
     .str.strip()
-    .str.title()
+    .str.title()  # e.g., 'Very Poor', 'Good', etc.
 )
 
-# 🧭 STEP 2: Define correct logical orders (gunakan semula category_orders, tetapi pastikan kes yang betul)
+# 🧭 STEP 2: Define correct logical orders
 year_of_study_order = ['First Year', 'Second Year', 'Third Year', 'Graduate Student']
 sleep_quality_order = ['Very Poor', 'Poor', 'Average', 'Good', 'Very Good']
-
 
 # 🗂️ STEP 3: Convert to categorical type with specified order
 df['1. What is your year of study?'] = pd.Categorical(
