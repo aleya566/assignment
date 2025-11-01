@@ -249,7 +249,7 @@ fig2 = px.box(
     x=gender_col,
     y=sleep_col, # Kekal menggunakan lajur kategori yang telah diuruskan
     color=gender_col,
-    title='Average Sleep Hours Category by Gender',
+    title='Average Sleep Hours by Gender',
     labels={
         gender_col: 'Gender',
         sleep_col: 'Average Sleep Hours Category' # Label dikemas kini
