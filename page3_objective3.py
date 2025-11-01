@@ -138,7 +138,9 @@ fig2 = px.imshow(
 fig2.update_layout(
     xaxis_title="Fatigue Frequency (Numeric Scale)",
     yaxis_title="Concentration Difficulty (Numeric Scale)",
-    coloraxis_colorbar=dict(title="Performance")
+    coloraxis_colorbar=dict(title="Performance"),
+    height=600,  # ✅ same height
+    margin=dict(l=80, r=20, t=70, b=100)  # ✅ same margins
 )
 st.plotly_chart(fig2, use_container_width=True)
 
