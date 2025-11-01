@@ -98,7 +98,7 @@ fig1 = px.box(
     color=sleep_impact_col,
     category_orders={sleep_impact_col: impact_order},
     color_discrete_sequence=px.colors.sequential.Sunset,
-    title="Academic Performance by Level of Sleep Impact"
+    title="Academic Performance by Impact of Insufficient Sleep on Assignments"
 )
 fig1.update_layout(
     xaxis_title="Impact of Insufficient Sleep on Assignments",
