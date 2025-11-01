@@ -104,7 +104,8 @@ fig1.update_layout(
     xaxis_title="Impact of Insufficient Sleep on Assignments",
     yaxis_title="Academic Performance (Numeric Scale)",
     legend_title_text="Sleep Impact Level",
-    xaxis_tickangle=45
+    xaxis_tickangle=45,
+    title_font=dict(size=18)
 )
 st.plotly_chart(fig1, use_container_width=True)
 
@@ -140,7 +141,8 @@ fig2.update_layout(
     yaxis_title="Concentration Difficulty (Numeric Scale)",
     coloraxis_colorbar=dict(title="Performance"),
     height=600,  # ✅ same height
-    margin=dict(l=80, r=20, t=70, b=100)  # ✅ same margins
+    margin=dict(l=80, r=20, t=70, b=100),  # ✅ same margins
+    title_font=dict(size=18)
 )
 st.plotly_chart(fig2, use_container_width=True)
 
