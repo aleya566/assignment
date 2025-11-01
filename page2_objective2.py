@@ -329,7 +329,8 @@ def app():
         # Reverse Y-axis to match typical heatmap layout (lower indices at top)
         yaxis=dict(autorange='reversed'), 
         height=600,
-        margin=dict(l=80, r=20, t=70, b=100)
+        margin=dict(l=80, r=20, t=70, b=100),
+        title_font=dict(size=18)
     )
 
     # Display the Plotly figure in Streamlit
@@ -374,7 +375,8 @@ fig3 = px.bar(
 fig3.update_layout(
     xaxis_title='Caffeine Consumption Frequency',
     yaxis_title='Proportion',
-    xaxis_tickangle=45
+    xaxis_tickangle=45,
+    title_font=dict(size=18)
 )
 st.plotly_chart(fig3, use_container_width=True)
 
