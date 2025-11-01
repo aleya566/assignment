@@ -265,6 +265,19 @@ fig2 = px.box(
 fig2.update_layout(xaxis_title="Gender", yaxis_title="Average Sleep Hours")
 st.plotly_chart(fig2, use_container_width=True)
 
+# Ensure proper category order before creating crosstab
+df['1. What is your year of study?'] = pd.Categorical(
+    df['1. What is your year of study?'],
+    categories=['First year', 'Second year', 'Third year', 'Graduate student'],
+    ordered=True
+)
+
+df['6. How would you rate the overall quality of your sleep?'] = pd.Categorical(
+    df['6. How would you rate the overall quality of your sleep?'],
+    categories=['Very Poor', 'Poor', 'Average', 'Good', 'Very Good'],
+    ordered=True
+)
+
 # ==============================================
 # 3️⃣ Stacked Bar Chart – Sleep Quality by Year of Study
 # ==============================================
