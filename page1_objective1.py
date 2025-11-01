@@ -337,6 +337,7 @@ fig_sleep_year = px.bar(
 )
 
 fig_sleep_year.update_layout(legend_title_text="Sleep Quality")
+title_font=dict(size=18)
 
 # 📤 STEP 7: Display in Streamlit
 st.plotly_chart(fig_sleep_year, use_container_width=True)
