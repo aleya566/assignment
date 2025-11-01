@@ -9,9 +9,9 @@ st.set_page_config(page_title="Interpretation Dashboard: Impact of Sleep Related
 # --- Load Dataset ---
 @st.cache_data
 def load_data():
-    url = 'https://raw.githubusercontent.com/aleya566/assignment/refs/heads/main/Student%20Insomnia%20and%20Educational%20Outcomes%20Dataset.csv'
-    df = pd.read_csv(url)
-    return df
+    url = 'https://raw.githubusercontent.com/aleya566/assignment/refs/heads/main/Student%20Insomnia%20and%20Educational%20Outcomes%20Dataset.csv'
+    df = pd.read_csv(url)
+    return df
 
 df = load_data()
 
@@ -37,45 +37,45 @@ common_fatigue = df[fatigue_col].mode()[0] if not df[fatigue_col].empty else "N/
 common_sleep_impact = df[sleep_impact_col].mode()[0] if not df[sleep_impact_col].empty else "N/A"
 
 # Display metrics
-# --- Display Metrics --- 
+# --- Display Metrics --- 
 col1.metric(
 label="🎓 Most Common Academic Performance",
-value=common_performance, 
-help="Most frequently reported academic performance level", 
-border=True 
-) 
+value=common_performance, 
+help="Most frequently reported academic performance level", 
+border=True 
+) 
 
-col2.metric( 
-label="🧩 Common Concentration Difficulty", 
-value=common_concentration, 
-help="Most common frequency of difficulty concentrating", 
+col2.metric( 
+label="🧩 Common Concentration Difficulty", 
+value=common_concentration, 
+help="Most common frequency of difficulty concentrating", 
 border=True
-) 
+) 
 
-col3.metric( 
-label="💤 Typical Fatigue Level", 
-value=common_fatigue, 
-help="Most common fatigue frequency reported by students", 
+col3.metric( 
+label="💤 Typical Fatigue Level", 
+value=common_fatigue, 
+help="Most common fatigue frequency reported by students", 
 border=True
-) 
+) 
 
-col4.metric( 
-label="📦 Impact of Insufficient Sleep", 
-value=common_sleep_impact, 
-help="Most common reported impact of insufficient sleep on assignments", 
+col4.metric( 
+label="📦 Impact of Insufficient Sleep", 
+value=common_sleep_impact, 
+help="Most common reported impact of insufficient sleep on assignments", 
 border=True
 )
 
 # --- Dataset Preview ---
 with st.expander("🔍 View Dataset"):
-    st.dataframe(df.head())
+    st.dataframe(df.head())
 
 # ==============================================
 # 🎯 OBJECTIVE 3
 # ==============================================
 st.markdown("""
 ## 🎯 **Objective 3**
-To investigate how sleep related issues such as **insufficient rest**, **difficulty concentrating** and **daytime fatigue** affect students **academic performance** and **cognitive functioning**. This objective focuses on understanding how **sleep deprivation and mental exhaustion** translate into measurable impacts on students’ learning efficiency, task completion, and overall academic results. 
+To investigate how sleep related issues such as **insufficient rest**, **difficulty concentrating** and **daytime fatigue** affect students **academic performance** and **cognitive functioning**. This objective focuses on understanding how **sleep deprivation and mental exhaustion** translate into measurable impacts on students’ learning efficiency, task completion, and overall academic results. 
 """)
 
 # =====================================================
@@ -92,20 +92,20 @@ df['Academic Performance (Numeric)'] = df[performance_col].map(academic_performa
 impact_order = ['No impact', 'Minor impact', 'Moderate impact', 'Major impact', 'Severe impact']
 
 fig1 = px.box(
-    df,
-    x=sleep_impact_col,
-    y='Academic Performance (Numeric)',
-    color=sleep_impact_col,
-    category_orders={sleep_impact_col: impact_order},
-    color_discrete_sequence=px.colors.sequential.Sunset,
-    title="Academic Performance by Impact of Insufficient Sleep on Assignments"
+    df,
+    x=sleep_impact_col,
+    y='Academic Performance (Numeric)',
+    color=sleep_impact_col,
+    category_orders={sleep_impact_col: impact_order},
+    color_discrete_sequence=px.colors.sequential.Sunset,
+    title="Academic Performance by Impact of Insufficient Sleep on Assignments"
 )
 fig1.update_layout(
-    xaxis_title="Impact of Insufficient Sleep on Assignments",
-    yaxis_title="Academic Performance (Numeric Scale)",
-    legend_title_text="Sleep Impact Level",
-    xaxis_tickangle=45,
-    title_font=dict(size=18)
+    xaxis_title="Impact of Insufficient Sleep on Assignments",
+    yaxis_title="Academic Performance (Numeric Scale)",
+    legend_title_text="Sleep Impact Level",
+    xaxis_tickangle=45,
+    title_font=dict(size=18)
 )
 st.plotly_chart(fig1, use_container_width=True)
 
@@ -116,48 +116,34 @@ st.subheader("b) Academic Performance by Fatigue and Concentration Difficulty")
 st.markdown("""
 Higher academic performance was concentrated among students who rarely feel fatigued or lost focus. As fatigue and concentration difficulty increase, grade point averages decreased. This pattern suggests that daytime fatigue and poor focus together contribute to lower academic outcomes.
 """)
-# Mapping categorical responses to numeric (Kept for consistency, even if not directly used in the plot axes now)
+# Mapping categorical responses to numeric
 mapping_scale = {'Never': 0, 'Rarely': 1, 'Sometimes': 2, 'Often': 3, 'Always': 4}
 df['Concentration Difficulty (Numeric)'] = df[concentration_col].map(mapping_scale)
 df['Fatigue Frequency (Numeric)'] = df[fatigue_col].map(mapping_scale)
 
-# Define the correct order for categorical axes labels
-order_labels = ['Never', 'Rarely', 'Sometimes', 'Often', 'Always']
-
-# Pivot table using the original categorical columns
+# Pivot table
 heatmap_data = df.pivot_table(
-    index=concentration_col,
-    columns=fatigue_col,
-    values='Academic Performance (Numeric)',
-    aggfunc='mean'
+    index='Concentration Difficulty (Numeric)',
+    columns='Fatigue Frequency (Numeric)',
+    values='Academic Performance (Numeric)',
+    aggfunc='mean'
 )
-
-# Reindex to enforce the correct order for both axes (Y-axis: Concentration, X-axis: Fatigue)
-heatmap_data = heatmap_data.reindex(index=order_labels, columns=order_labels)
-
 
 fig2 = px.imshow(
-    heatmap_data,
-    text_auto=True,
-    color_continuous_scale='Sunset',
-    title="Academic Performance by Fatigue and Concentration Difficulty",
-    labels=dict(x="Fatigue Frequency", y="Concentration Difficulty", color="Avg Academic Perf.")
+    heatmap_data,
+    text_auto=True,
+    color_continuous_scale='Sunset',
+    title="Academic Performance by Fatigue and Concentration Difficulty",
+    labels=dict(x="Fatigue Frequency", y="Concentration Difficulty", color="Avg Academic Perf.")
 )
-
-# Update layout to reflect the categorical labels (removing 'Numeric Scale')
 fig2.update_layout(
-    xaxis_title="Fatigue Frequency",
-    yaxis_title="Concentration Difficulty",
-    coloraxis_colorbar=dict(title="Performance"),
-    height=600,
-    margin=dict(l=80, r=20, t=70, b=100),
-    title_font=dict(size=18)
+    xaxis_title="Fatigue Frequency (Numeric Scale)",
+    yaxis_title="Concentration Difficulty (Numeric Scale)",
+    coloraxis_colorbar=dict(title="Performance"),
+    height=600,  # ✅ same height
+    margin=dict(l=80, r=20, t=70, b=100),  # ✅ same margins
+    title_font=dict(size=18)
 )
-
-# Ensure Y-axis ticks are ordered from 'Always' (bottom) to 'Never' (top) like the Colab chart
-# This is often done by reversing the axis.
-fig2.update_yaxes(autorange='reversed')
-
 st.plotly_chart(fig2, use_container_width=True)
 
 # =====================================================
@@ -169,26 +155,27 @@ Students who never or rarely had struggle to concentrate tend to achieve better 
 """)
 
 fig3 = px.violin(
-    df,
-    x=concentration_col,
-    y='Academic Performance (Numeric)',
-    color=concentration_col,
-    box=True,
-    points='all',
-    category_orders={concentration_col: ['Never', 'Rarely', 'Sometimes', 'Often', 'Always']},
-    color_discrete_sequence=px.colors.sequential.Sunset,
-    title="Academic Performance by Difficulty Concentrating"
+    df,
+    x=concentration_col,
+    y='Academic Performance (Numeric)',
+    color=concentration_col,
+    box=True,
+    points='all',
+    category_orders={concentration_col: ['Never', 'Rarely', 'Sometimes', 'Often', 'Always']},
+    color_discrete_sequence=px.colors.sequential.Sunset,
+    title="Academic Performance by Difficulty Concentrating"
 )
 fig3.update_layout(
-    xaxis_title="Difficulty Concentrating Frequency",
-    yaxis_title="Academic Performance (Numeric Scale)",
-    legend_title_text="Concentration Level",
-    xaxis_tickangle=45,
-    height=600,  # same as the box plot shown in your screenshot
-    margin=dict(l=60, r=40, t=70, b=80),
-    title_font=dict(size=18)
+    xaxis_title="Difficulty Concentrating Frequency",
+    yaxis_title="Academic Performance (Numeric Scale)",
+    legend_title_text="Concentration Level",
+    xaxis_tickangle=45,
+    height=600,  # same as the box plot shown in your screenshot
+    margin=dict(l=60, r=40, t=70, b=80),
+    title_font=dict(size=18)
 )
 st.plotly_chart(fig3, use_container_width=True)
 
 # --- Footer ---
 st.markdown("---")
+
