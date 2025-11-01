@@ -272,7 +272,7 @@ st.plotly_chart(fig2, use_container_width=True)
 # ==============================================
 st.subheader("c) Sleep Quality by Year of Study")
 st.markdown("""
-Most students, regardless of year, reported 'Poor' or 'Very Poor' sleep quality. However, graduate and third-year students showed a higher percentage of 'Very Poor' sleep, while first and second-year students reported slightly higher 'Good' sleep quality. This pattern suggests that sleep quality challenges persist across all levels, possibly worsening due to academic stress.
+Most students, regardless of year, reported 'Poor' or 'Very Poor' sleep quality. However, graduate and third year students showed a higher percentage of 'Very Poor' sleep, while first and second year students reported slightly higher 'Good' sleep quality. This pattern suggests that sleep quality challenges persist across all levels, possibly worsening due to academic stress.
 """)
 
 # 🧹 STEP 1: Clean and standardize text (important for correct category matching)
